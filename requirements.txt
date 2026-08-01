@@ -1,0 +1,6 @@
+openai
+langchain
+langgraph
+python-dotenv
+tiktoken
+radon
