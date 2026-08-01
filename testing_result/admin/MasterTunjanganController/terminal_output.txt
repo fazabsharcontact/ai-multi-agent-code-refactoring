@@ -1,0 +1,212 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality
+
+- **Maintainability: Medium (MI 68.27)**  
+  The component is generally manageable, but its relatively high Halstead volume indicates some logic may be dense or difficult to understand despite only 55 lines of code.
+
+- **Reusability: High (0.8378)**  
+  Low normalized complexity and coupling suggest the component is reasonably modular and can likely be reused with limited modification.
+
+- **Clean Code: No detected issues**  
+  No long methods, oversized classes, or explicit error-handling problems were identified. This should be validated with manual review because automated detection may miss contextual issues.
+
+- **Code Smell: Minor duplication**  
+  Five repeated lines were detected with medium severity. This is the primary concrete improvement opportunity.
+
+## 2. Main Problems
+
+- Repeated logic may cause inconsistent behavior when changes are made in only one copy.
+- The relatively high Halstead volume may indicate overly dense expressions, unclear responsibilities, or insufficiently descriptive abstractions.
+- Maintainability is acceptable but not strong enough to assume the component will remain easy to evolve.
+- No major structural problems are evident from the metrics, so extensive architectural restructuring is not justified.
+
+## 3. Recommended Architectural Refactoring
+
+1. **Extract duplicated logic into a shared abstraction**
+   - Consolidate the repeated five lines into a focused utility, service, or domain-level operation.
+   - Keep the abstraction narrowly scoped so it does not become a generic “miscellaneous” module.
+
+2. **Improve module responsibility boundaries**
+   - Separate business rules, data transformation, and infrastructure interaction if they are currently combined.
+   - Ensure each module exposes a small, stable interface.
+
+3. **Reduce logic density**
+   - Decompose complex expressions into named intermediate operations.
+   - Replace repeated literals or embedded decisions with named constants, policies, or configuration where appropriate.
+
+4. **Preserve and strengthen reuse**
+   - Keep dependencies directed toward abstractions rather than concrete implementations.
+   - Avoid introducing shared state into the extracted reusable component.
+
+5. **Add regression tests around the extracted behavior**
+   - Verify that deduplication preserves existing behavior.
+   - Include edge cases before and after moving the shared logic.
+
+## 4. Prioritized Recommendations
+
+### Priority 1 — Remove duplicated code
+Highest value and lowest risk. It directly addresses the only detected code smell and reduces future maintenance inconsistency.
+
+### Priority 2 — Clarify dense logic
+Review the areas contributing to the high Halstead volume and refactor them into named, focused operations. This should improve the maintainability index and readability.
+
+### Priority 3 — Validate architectural boundaries
+Confirm that business logic, data handling, and external interactions are not unnecessarily coupled. Refactor only where responsibilities are clearly mixed.
+
+### Priority 4 — Add regression coverage
+Protect the shared abstraction and existing behavior before or during refactoring. This reduces the risk of introducing defects while improving structure.
+
+### Priority 5 — Avoid broad architectural changes
+Because complexity is low, reusability is high, and no large structural smells were detected, avoid a major redesign. Prefer targeted, incremental refactoring.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 68.27
+After  : 68.02
+Delta  : -0.25
+
+------------------------------------------
+
+Reusability Index
+Before : 0.8378
+After  : 0.6846
+Delta  : -0.15
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring provides a **partial improvement**. It reduced duplicated code and Halstead volume, while cyclomatic complexity remained stable. However, maintainability was essentially unchanged and reusability declined from **High** to **Medium**, primarily due to increased coupling and dependencies.
+
+## Improvements
+
+- Duplicated code decreased from **5 lines to 2 lines**, indicating better consolidation.
+- Halstead volume decreased, suggesting reduced implementation complexity.
+- Cyclomatic complexity remained at **2**, so control-flow complexity did not increase.
+- The introduction of dedicated form request classes and a service indicates improved separation of validation and business logic.
+- No long-method or large-class issues were detected.
+
+## Remaining Issues
+
+- Maintainability remains in the **Medium** category, with a slight decline in the maintainability index.
+- Coupling increased from **4 to 8 dependencies**, which contributed to the lower reusability rating.
+- Reusability declined from **High** to **Medium**; the service and request classes may have added architectural dependencies without sufficient reuse elsewhere.
+- Two duplicated lines remain and should be reviewed.
+- No clean-code findings were reported for error handling, but the available results do not demonstrate whether exceptions, validation failures, and service errors are handled consistently.
+- The dependency list appears to contain both a fully qualified and an unqualified `MasterTunjanganService`, which should be checked for an import or analysis inconsistency.
+
+## Recommendation
+
+The refactoring is **successful in reducing duplication and improving separation of responsibilities**, but it is not a complete quality improvement because coupling increased and reusability declined. Retain the refactoring, then reduce unnecessary dependencies, verify service boundaries and imports, eliminate the remaining duplication, and add or review consistent error handling. Reassess the design after these changes to determine whether the service layer provides enough reuse to justify its additional coupling.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/MasterTunjanganController/refactored', 'files': ['output/MasterTunjanganController/refactored/app/Repositories/Contracts/MasterTunjanganRepositoryInterface.php', 'output/MasterTunjanganController/refactored/app/Repositories/EloquentMasterTunjanganRepository.php', 'output/MasterTunjanganController/refactored/app/Services/MasterTunjanganService.php', 'output/MasterTunjanganController/refactored/app/Http/Requests/Admin/StoreMasterTunjanganRequest.php', 'output/MasterTunjanganController/refactored/app/Http/Requests/Admin/UpdateMasterTunjanganRequest.php', 'output/MasterTunjanganController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/MasterTunjanganController/refactored/app/Http/Controllers/Admin/MasterTunjanganController.php']}

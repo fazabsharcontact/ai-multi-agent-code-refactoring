@@ -1,0 +1,220 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Kualitas Perangkat Lunak
+
+- **Maintainability: Sedang (MI 67,94)**  
+  Kode masih dapat dipelihara, tetapi kompleksitas dan volume logika cukup tinggi dibandingkan ukurannya.
+
+- **Reusability: Sedang (0,7073)**  
+  Komponen belum sepenuhnya mudah digunakan kembali, terutama karena ketergantungan dan pembuatan objek langsung di Controller.
+
+- **Clean Code**  
+  Terdapat pelanggaran berupa **direct object instantiation di Controller**. Tidak ditemukan masalah fungsi atau error handling yang signifikan.
+
+- **Code Smell**  
+  Ditemukan **duplikasi dua baris kode** dengan tingkat keparahan sedang. Tidak terdapat long method atau large class.
+
+## 2. Masalah Utama
+
+- Controller terlalu mengetahui detail pembuatan dan dependensi objek.
+- Ketergantungan sulit diganti atau diuji secara terisolasi.
+- Terdapat duplikasi kecil yang berpotensi berkembang menjadi inkonsistensi.
+- Kompleksitas siklomatik sebesar 6 menunjukkan adanya beberapa percabangan yang perlu dikendalikan.
+- Volume Halstead relatif tinggi terhadap ukuran kode, yang mengindikasikan logika cukup padat atau menggunakan banyak operator/operand.
+
+## 3. Rekomendasi Architectural Refactoring
+
+1. **Terapkan Dependency Injection**
+   - Pindahkan pembuatan objek dari Controller ke dependency container, composition root, atau konfigurasi aplikasi.
+   - Inject dependency melalui konstruktor atau mekanisme framework yang sesuai.
+
+2. **Pisahkan tanggung jawab Controller dan Business Logic**
+   - Controller sebaiknya hanya menangani input, validasi dasar, pemanggilan service, dan pembentukan response.
+   - Pindahkan proses bisnis ke service/use-case layer.
+
+3. **Gunakan abstraksi interface untuk dependency utama**
+   - Definisikan kontrak untuk komponen yang mungkin berubah, seperti repository, service eksternal, atau provider.
+   - Hal ini meningkatkan testability dan reusability.
+
+4. **Eliminasi duplikasi**
+   - Ekstrak baris yang berulang ke helper, shared service, atau fungsi utilitas yang memiliki tanggung jawab jelas.
+   - Hindari membuat abstraksi berlebihan untuk duplikasi yang sangat kecil dan tidak stabil.
+
+5. **Sederhanakan percabangan**
+   - Pisahkan kondisi kompleks ke metode bernama jelas atau gunakan strategy/policy pattern jika variasi perilaku semakin bertambah.
+   - Kurangi nested conditional agar alur utama lebih mudah dibaca.
+
+6. **Evaluasi kembali struktur modul**
+   - Pastikan dependency mengarah dari Controller ke service/use-case, lalu ke repository atau adapter.
+   - Hindari Controller bergantung langsung pada implementasi konkret.
+
+## 4. Prioritas Rekomendasi
+
+### Prioritas Tinggi
+1. Terapkan **Dependency Injection** untuk menghilangkan direct object instantiation di Controller.
+2. Pisahkan business logic ke **service/use-case layer**.
+3. Hilangkan duplikasi kode yang teridentifikasi.
+
+### Prioritas Menengah
+4. Gunakan interface dan adapter untuk dependency yang dapat berubah.
+5. Refactor percabangan untuk menurunkan kompleksitas dan meningkatkan keterbacaan.
+
+### Prioritas Rendah
+6. Lakukan evaluasi struktur modul dan abstraksi secara berkala.
+7. Tambahkan pengujian unit pada service dan dependency yang telah dipisahkan.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 67.94
+After  : 73.35
+Delta  : 5.41
+
+------------------------------------------
+
+Reusability Index
+Before : 0.7073
+After  : 0.6934
+Delta  : -0.01
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is **partially successful and generally beneficial**. The code became easier to maintain through reduced size, lower complexity, and removal of the direct object-instantiation issue. However, maintainability remains in the **Medium** category, and reusability slightly declined due to increased external dependencies.
+
+## Improvements
+
+- Maintainability improved from **67.94 to 73.35**, indicating better overall code structure.
+- Lines of code and Halstead volume decreased, suggesting reduced implementation complexity.
+- Cyclomatic complexity decreased from **6 to 3**, making the control flow easier to understand, test, and modify.
+- Direct object instantiation in the controller was eliminated, indicating better separation of responsibilities through a request class and service class.
+- The controller appears more focused, with business logic likely moved into `PegawaiCutiService`.
+- No long-method, large-class, or error-handling issues were identified.
+
+## Remaining Issues
+
+- Maintainability is still categorized as **Medium**, so further simplification and structural improvement may be possible.
+- Coupling increased from **6 to 8 dependencies**. Although introducing a service and form request can improve architecture, the controller now depends on more components and abstractions. These dependencies should remain purposeful and well managed.
+- Reusability declined slightly from **0.7073 to 0.6934**, likely due to the increased dependency count.
+- Duplicated code increased from two repeated lines to three. This should be reviewed, especially if the duplication occurs across the controller, service, or request classes.
+- No explicit error-handling issues were detected, but the available metrics do not confirm whether service failures, validation failures, and authentication problems are handled consistently.
+
+## Recommendation
+
+Accept the refactoring as a **positive improvement**, particularly because complexity and maintainability improved and controller responsibilities were better separated. Before considering the work complete:
+
+- Remove or centralize the remaining duplicated code.
+- Review the additional dependencies and ensure they follow dependency-inversion principles.
+- Add or strengthen automated tests for the service, request validation, authorization, and failure paths.
+- Reassess maintainability after these changes to determine whether it can move beyond the Medium category.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/PegawaiCutiController/refactored', 'files': ['output/PegawaiCutiController/refactored/app/Repositories/Contracts/CutiRepositoryInterface.php', 'output/PegawaiCutiController/refactored/app/Repositories/Contracts/PegawaiRepositoryInterface.php', 'output/PegawaiCutiController/refactored/app/Repositories/EloquentCutiRepository.php', 'output/PegawaiCutiController/refactored/app/Repositories/EloquentPegawaiRepository.php', 'output/PegawaiCutiController/refactored/app/Services/PegawaiCutiService.php', 'output/PegawaiCutiController/refactored/app/Http/Requests/Pegawai/StoreCutiRequest.php', 'output/PegawaiCutiController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/PegawaiCutiController/refactored/app/Http/Controllers/Pegawai/PegawaiCutiController.php']}

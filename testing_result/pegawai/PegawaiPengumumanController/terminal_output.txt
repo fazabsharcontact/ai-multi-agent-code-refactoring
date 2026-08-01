@@ -1,0 +1,198 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability: Medium** — The code is small and has low cyclomatic complexity, but its Halstead volume indicates moderate implementation complexity.
+- **Reusability: High** — Low normalized size and complexity suggest the component is relatively easy to reuse.
+- **Clean Code: No detected structural issues** — No long methods, large classes, or explicit error-handling problems were identified.
+- **Code Smell: Limited duplication** — Two repeated lines were detected, creating a minor maintainability risk.
+
+## 2. Main Problems
+
+- Repeated logic may cause inconsistent future changes.
+- Moderate implementation volume may make detailed behavior harder to understand than the low complexity score suggests.
+- The maintainability rating indicates that readability and changeability can still be improved despite the small code size.
+- The clean-code results may reflect limited detection coverage; error-handling quality should be validated separately.
+
+## 3. Recommended Architectural Refactoring
+
+### High Priority — Consolidate duplicated logic
+- Extract the repeated lines into a shared function, utility, or reusable component.
+- Place the extracted responsibility in the module that owns the relevant business rule.
+- Ensure callers use the shared abstraction rather than maintaining separate copies.
+
+### Medium Priority — Improve responsibility boundaries
+- Review whether the current component combines calculation, orchestration, validation, or formatting responsibilities.
+- Separate distinct responsibilities if they are coupled, while avoiding unnecessary fragmentation.
+- Keep the public interface stable to preserve the current high reusability.
+
+### Medium Priority — Reduce implementation complexity
+- Replace implicit or repeated logic with named domain-level operations.
+- Clarify control flow and data transformations through focused abstractions.
+- Avoid introducing additional architectural layers unless they reduce coupling or improve testability.
+
+### Low Priority — Strengthen reliability checks
+- Add or improve tests around the shared behavior before and after consolidation.
+- Include edge cases and failure paths, particularly where error handling was not identified by the analysis.
+- Recalculate maintainability and duplication metrics after refactoring.
+
+## 4. Prioritization
+
+1. **Remove the duplicated code.**
+2. **Validate and improve responsibility boundaries.**
+3. **Simplify complex or opaque implementation details.**
+4. **Expand testing and reassess quality metrics.**
+5. **Avoid a broad architectural rewrite**, since the code already has high reusability, low cyclomatic complexity, and no detected large-structure smells.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 75.74
+After  : 96.36
+Delta  : 20.62
+
+------------------------------------------
+
+Reusability Index
+Before : 0.7556
+After  : 0.9395
+Delta  : 0.18
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring was successful overall. The code became significantly more maintainable and reusable, with reduced implementation complexity and coupling, while preserving the same cyclomatic complexity. The maintainability classification improved from **Medium** to **High**, and reusability remained high with a substantial improvement.
+
+## Improvements
+
+- Maintainability improved considerably, supported by:
+  - Lower lines of code.
+  - Lower Halstead volume.
+  - A significant increase in the maintainability index.
+- Coupling was substantially reduced, indicating fewer external dependencies and better separation of responsibilities.
+- Reusability improved from a high level to a stronger high level, primarily due to reduced code size and dependency usage.
+- The refactoring appears to have extracted business logic into `PegawaiPengumumanService`, making the controller leaner and more focused.
+- Code duplication was reduced from two repeated lines to one.
+
+## Remaining Issues
+
+- One duplicated line remains and is still classified as a medium-severity code smell.
+- Cyclomatic complexity did not improve, so the control-flow complexity remains unchanged.
+- No functions, data-structure issues, or error-handling findings were reported; however, the absence of reported findings does not confirm that error handling and method design are fully adequate.
+- The dependency list contains both fully qualified and short references to `PegawaiPengumumanService`, which may indicate an import or analysis-reporting inconsistency and should be verified.
+- The metrics do not demonstrate behavioral correctness, test coverage, performance, or security improvements.
+
+## Recommendation
+
+Accept the refactoring as a positive improvement, provided existing functionality is confirmed through regression and integration testing. As follow-up work, remove the remaining duplication, review service boundaries and dependency declarations, and add or strengthen explicit error handling and automated tests around the extracted service logic.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/PegawaiPengumumanController/refactored', 'files': ['output/PegawaiPengumumanController/refactored/app/Repositories/Contracts/PengumumanPenerimaRepositoryInterface.php', 'output/PegawaiPengumumanController/refactored/app/Repositories/EloquentPengumumanPenerimaRepository.php', 'output/PegawaiPengumumanController/refactored/app/Services/PegawaiPengumumanService.php', 'output/PegawaiPengumumanController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/PegawaiPengumumanController/refactored/app/Http/Controllers/Pegawai/PegawaiPengumumanController.php']}

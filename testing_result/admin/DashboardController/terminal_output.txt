@@ -1,0 +1,200 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Rekomendasi berdasarkan kualitas perangkat lunak
+
+- **Prioritaskan peningkatan maintainability.** Maintainability Index 63,38 dikategorikan rendah, terutama karena volume Halstead tinggi dibandingkan ukuran kode yang relatif kecil. Pecah logika yang padat menjadi komponen atau fungsi dengan tanggung jawab yang lebih spesifik.
+- **Pertahankan kompleksitas kontrol tetap rendah.** Cyclomatic Complexity 3 menunjukkan alur logika masih relatif sederhana, sehingga refactoring sebaiknya berfokus pada struktur dan abstraksi, bukan hanya pengurangan percabangan.
+- **Tingkatkan reusability.** Reusability Index 0,7067 berada pada tingkat sedang. Kurangi ketergantungan langsung antar-komponen dan sediakan abstraksi yang dapat digunakan ulang.
+
+## 2. Masalah utama
+
+- **Akses data langsung dari controller — prioritas tinggi.** Controller terlalu mengetahui detail sumber data, sehingga meningkatkan coupling dan menyulitkan pengujian, perubahan database, atau penggantian mekanisme penyimpanan.
+- **Logika kemungkinan terlalu padat.** Halstead Volume 2886,33 mengindikasikan banyak operand/operator atau detail implementasi dalam ruang kode yang kecil.
+- **Duplikasi kode.** Satu baris berulang tetap perlu dikonsolidasikan agar perubahan tidak harus dilakukan di beberapa lokasi.
+- **Ketergantungan antar-komponen masih cukup tinggi.** Nilai coupling/reusability menunjukkan peluang untuk memperjelas batas tanggung jawab dan kontrak antar-layer.
+- **Belum ada indikasi masalah besar pada ukuran struktur.** Tidak ditemukan long method atau large class, sehingga refactoring tidak perlu berfokus pada pemecahan kelas besar.
+
+## 3. Rekomendasi architectural refactoring
+
+- **Terapkan pola Controller–Service–Repository/DAO.**
+  - Controller menangani request, validasi awal, dan response.
+  - Service menangani aturan bisnis.
+  - Repository/DAO menangani akses data.
+- **Gunakan Repository atau Data Access Abstraction.** Sembunyikan detail query, ORM, atau sumber data dari controller.
+- **Tambahkan DTO atau View Model.** Pisahkan struktur data eksternal/API dari model persistence agar perubahan database tidak langsung memengaruhi controller.
+- **Terapkan Dependency Inversion.** Komponen bisnis bergantung pada interface/kontrak, bukan implementasi akses data konkret.
+- **Ekstrak logika padat menjadi komponen berfokus tunggal.** Pisahkan validasi, transformasi data, kalkulasi, dan orkestrasi proses jika saat ini tercampur.
+- **Konsolidasikan kode duplikat.** Pindahkan baris atau perilaku berulang ke helper, utility, service bersama, atau konstanta terpusat sesuai konteksnya.
+- **Kurangi ketergantungan antar-layer.** Hindari controller memanggil banyak komponen infrastruktur secara langsung; gunakan service sebagai titik orkestrasi.
+- **Tambahkan pengujian pada boundary layer.** Fokus pada unit test untuk service dan repository contract test untuk memastikan refactoring tidak mengubah perilaku.
+
+## 4. Prioritas rekomendasi
+
+### Prioritas 1 — Tinggi
+1. Pisahkan akses data langsung dari controller melalui **Service dan Repository/DAO**.
+2. Terapkan **abstraksi interface dan dependency inversion**.
+3. Identifikasi serta pecah logika dengan Halstead Volume tinggi.
+
+### Prioritas 2 — Sedang
+4. Perkenalkan DTO/View Model untuk mengurangi kebocoran detail persistence.
+5. Konsolidasikan satu baris kode yang terduplikasi.
+6. Tambahkan pengujian pada service dan repository sebelum refactoring lanjutan.
+
+### Prioritas 3 — Pemeliharaan
+7. Dokumentasikan tanggung jawab setiap layer dan aturan dependensinya.
+8. Pantau Maintainability Index, coupling, dan duplikasi pada perubahan berikutnya.
+9. Pertahankan kompleksitas siklomatik tetap rendah dan hindari penambahan logika bisnis di controller.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 63.38
+After  : 94.61
+Delta  : 31.23
+
+------------------------------------------
+
+Reusability Index
+Before : 0.7067
+After  : 0.8991
+Delta  : 0.19
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is successful. The code shows substantial improvements in maintainability, reusability, dependency management, and separation of responsibilities. The controller is now significantly smaller and delegates data-related operations to `DashboardService`, reducing direct database and model access.
+
+## Improvements
+
+- Maintainability improved from **Low** to **High**, supported by:
+  - Reduced code size.
+  - Lower cyclomatic complexity.
+  - Much lower Halstead volume.
+  - A significant increase in the maintainability index.
+- Reusability improved from **Medium** to **High**, indicating that the refactored structure is more suitable for reuse and extension.
+- Coupling was reduced from seven dependencies to four.
+- The previous direct data-access issue in the controller was eliminated.
+- The refactoring improves separation of concerns by moving dashboard logic into a service.
+- No long-method or large-class issues were detected.
+
+## Remaining Issues
+
+- One duplicated-code finding remains. Although its impact is limited, it should be reviewed and consolidated if it represents repeated logic.
+- No explicit error-handling issues were detected, but the available metrics do not confirm whether service failures, database exceptions, or invalid data are handled appropriately.
+- The dependency list contains both `App\Services\DashboardService` and `DashboardService`, which may indicate inconsistent reference or import reporting. This should be verified in the source code.
+- The metrics do not assess functional correctness, test coverage, security, or runtime performance.
+
+## Recommendation
+
+Accept the refactoring as a successful improvement. As follow-up work, remove or justify the remaining duplicated line, verify the service dependency declarations, and add or review automated tests covering dashboard behavior and failure scenarios.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/DashboardController/refactored', 'files': ['output/DashboardController/refactored/app/Repositories/Contracts/DashboardRepositoryInterface.php', 'output/DashboardController/refactored/app/Repositories/EloquentDashboardRepository.php', 'output/DashboardController/refactored/app/Services/DashboardService.php', 'output/DashboardController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/DashboardController/refactored/bootstrap/providers.php', 'output/DashboardController/refactored/app/Http/Controllers/Admin/DashboardController.php']}

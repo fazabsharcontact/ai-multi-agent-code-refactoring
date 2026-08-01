@@ -1,0 +1,236 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Kualitas Perangkat Lunak
+
+- **Maintainability rendah** — Maintainability Index **47,11**, dengan 125 LOC, cyclomatic complexity **7**, dan Halstead volume tinggi. Perubahan dan pemahaman kode berpotensi membutuhkan usaha besar.
+- **Reusability rendah** — Reusability Index **0,3021**. Coupling eksternal relatif tinggi, sehingga komponen sulit digunakan kembali atau dipindahkan.
+- **Struktur kode cukup terkendali** — Tidak ditemukan long method maupun large class.
+- **Masalah desain utama** — Instansiasi objek langsung di Controller dan terdapat duplikasi kode sebanyak 5 baris.
+- **Error handling** — Tidak ada masalah error handling yang terdeteksi dari analisis yang tersedia.
+
+## 2. Masalah Utama
+
+1. **Controller terlalu mengetahui detail konstruksi objek**
+   - Menyebabkan coupling antara Controller dan implementasi konkret.
+   - Menyulitkan pengujian, penggantian implementasi, serta penggunaan ulang komponen.
+
+2. **Duplikasi logika**
+   - Lima baris kode berulang dapat menimbulkan inkonsistensi ketika salah satu salinan diperbarui dan salinan lain tidak.
+
+3. **Kompleksitas dan volume kode cukup tinggi**
+   - Meningkatkan beban kognitif serta risiko regresi saat melakukan perubahan.
+
+4. **Batas tanggung jawab antar-layer belum optimal**
+   - Logika pembuatan atau orkestrasi objek berada di Controller, bukan pada lapisan aplikasi atau komposisi yang sesuai.
+
+## 3. Rekomendasi Architectural Refactoring
+
+### Prioritas 1 — Terapkan Dependency Injection
+
+- Pindahkan pembuatan objek dari Controller ke **Dependency Injection container**, composition root, atau application configuration.
+- Controller hanya menerima dependency yang dibutuhkan melalui constructor atau mekanisme injeksi.
+- Gunakan abstraksi seperti interface/port agar Controller tidak bergantung pada implementasi konkret.
+
+**Dampak:** Mengurangi coupling, meningkatkan testability, dan memperbaiki reusability.
+
+### Prioritas 2 — Ekstrak Logika Duplikat
+
+- Identifikasi lima baris berulang dan ekstrak menjadi:
+  - shared service,
+  - utility yang memiliki tanggung jawab jelas, atau
+  - domain/application component.
+- Tempatkan hasil ekstraksi pada layer yang sesuai, bukan sekadar memindahkannya ke utility global.
+- Tambahkan pengujian untuk memastikan seluruh pemanggil mempertahankan perilaku yang sama.
+
+**Dampak:** Mengurangi risiko inkonsistensi dan biaya pemeliharaan.
+
+### Prioritas 3 — Pisahkan Tanggung Jawab Controller
+
+- Pertahankan Controller hanya untuk:
+  - menerima input,
+  - validasi dasar,
+  - memanggil use case,
+  - mengembalikan response.
+- Pindahkan orkestrasi proses ke **Application Service/Use Case**.
+- Pindahkan aturan bisnis ke **Domain Service** atau entitas domain bila relevan.
+
+**Dampak:** Menurunkan kompleksitas efektif Controller dan meningkatkan keterujian.
+
+### Prioritas 4 — Perkenalkan Boundary Berbasis Port and Adapter
+
+- Definisikan port untuk dependency eksternal seperti repository, client, atau service.
+- Letakkan implementasi konkret pada adapter/infrastructure layer.
+- Hindari ketergantungan langsung dari domain/application layer terhadap framework atau detail infrastruktur.
+
+**Dampak:** Meningkatkan reusability, maintainability, dan fleksibilitas perubahan teknologi.
+
+### Prioritas 5 — Kurangi Kompleksitas Internal Secara Bertahap
+
+- Pecah kondisi bercabang menjadi beberapa operasi dengan tujuan yang jelas.
+- Gunakan strategi polymorphism atau strategy component bila percabangan merepresentasikan variasi perilaku.
+- Hindari refactoring besar sekaligus; lakukan secara incremental dengan regression test.
+
+**Dampak:** Menurunkan kompleksitas dan meningkatkan keterbacaan tanpa membuat class atau method baru yang tidak diperlukan.
+
+## 4. Urutan Prioritas Implementasi
+
+1. **Dependency Injection dan penghapusan direct instantiation di Controller.**
+2. **Ekstraksi kode duplikat ke komponen bersama yang bertanggung jawab jelas.**
+3. **Pemisahan Controller dari application/domain logic.**
+4. **Penerapan port-adapter untuk dependency eksternal.**
+5. **Penyederhanaan percabangan dan pengurangan kompleksitas secara incremental.**
+6. **Validasi hasil melalui unit test, integration test, dan pengukuran ulang maintainability serta reusability.**
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 47.11
+After  : 67.3
+Delta  : 20.19
+
+------------------------------------------
+
+Reusability Index
+Before : 0.3021
+After  : 0.7182
+Delta  : 0.42
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is successful. It substantially improves maintainability and reusability, while reducing controller complexity and dependency exposure. The code has moved from **low maintainability and low reusability** to **medium maintainability and medium reusability**.
+
+## Improvements
+
+- Maintainability improved significantly, with the index increasing from **47.11 to 67.3**.
+- Cyclomatic complexity decreased from **7 to 2**, making the code easier to understand, test, and modify.
+- Code size and Halstead volume were substantially reduced, indicating less implementation complexity.
+- Coupling decreased from **13 to 7** dependencies.
+- Responsibilities were better separated through:
+  - `StorePegawaiRequest` and `UpdatePegawaiRequest` for validation.
+  - `PegawaiService` for business logic.
+- Reusability improved from **0.3021 to 0.7182**.
+- The direct object instantiation code smell was eliminated.
+- No long-method or large-class issues were detected.
+
+## Remaining Issues
+
+- The code remains in the **medium maintainability** and **medium reusability** categories rather than reaching a high-quality level.
+- Five duplicated lines remain unchanged and should be reviewed for possible extraction or consolidation.
+- The controller still depends on several framework and application components. Although coupling is reduced, dependency boundaries should continue to be monitored.
+- The metrics do not identify functions or error-handling concerns. This does not prove that testing and exception handling are sufficient; functional and integration behavior should be verified separately.
+
+## Recommendation
+
+Accept the refactoring as a clear quality improvement. As follow-up work, remove the remaining duplication, add or strengthen unit tests for `PegawaiService` and the request classes, and verify validation, exception handling, authorization, and transactional behavior through integration testing.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/PegawaiController/refactored', 'files': ['output/PegawaiController/refactored/app/Repositories/Contracts/PegawaiRepositoryInterface.php', 'output/PegawaiController/refactored/app/Repositories/Contracts/UserRepositoryInterface.php', 'output/PegawaiController/refactored/app/Repositories/Contracts/JabatanRepositoryInterface.php', 'output/PegawaiController/refactored/app/Repositories/Contracts/DivisiRepositoryInterface.php', 'output/PegawaiController/refactored/app/Repositories/Contracts/TransactionManagerInterface.php', 'output/PegawaiController/refactored/app/Repositories/EloquentPegawaiRepository.php', 'output/PegawaiController/refactored/app/Repositories/EloquentUserRepository.php', 'output/PegawaiController/refactored/app/Repositories/EloquentJabatanRepository.php', 'output/PegawaiController/refactored/app/Repositories/EloquentDivisiRepository.php', 'output/PegawaiController/refactored/app/Repositories/DatabaseTransactionManager.php', 'output/PegawaiController/refactored/app/Services/PegawaiService.php', 'output/PegawaiController/refactored/app/Http/Requests/Admin/StorePegawaiRequest.php', 'output/PegawaiController/refactored/app/Http/Requests/Admin/UpdatePegawaiRequest.php', 'output/PegawaiController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/PegawaiController/refactored/bootstrap/providers.php', 'output/PegawaiController/refactored/app/Http/Controllers/Admin/PegawaiController.php']}

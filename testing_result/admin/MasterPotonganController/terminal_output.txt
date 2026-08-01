@@ -1,0 +1,217 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability is low**: Maintainability Index **64.84** with relatively high Halstead volume indicates that the code is more difficult to understand and modify than its small size suggests.
+- **Reusability is high**: Reusability Index **0.8276** indicates that the existing logic is relatively suitable for reuse and is not excessively coupled.
+- **Cyclomatic complexity is low**: Complexity of **2** suggests limited branching and low control-flow risk.
+- **Clean-code assessment is incomplete**: No functions, data structures, or error-handling findings were detected, so these areas should still be reviewed manually.
+- **Duplication exists**: Five repeated lines were detected with medium severity.
+
+## 2. Main Problems
+
+- Dense or overly verbose logic relative to the number of lines.
+- Repeated statements that may cause inconsistent future changes.
+- Maintainability risk despite low cyclomatic complexity, likely due to high expression, token, or operational volume.
+- Architectural structure is unclear because no meaningful function, object, or data-structure boundaries were identified.
+- Error-handling responsibilities may not be explicitly separated or standardized.
+
+## 3. Recommended Architectural Refactoring
+
+- **Extract duplicated logic into a shared component**  
+  Consolidate the repeated five lines into a reusable helper, service, or utility with a clear responsibility.
+
+- **Decompose dense logic into cohesive responsibilities**  
+  Split the current implementation into smaller, purpose-oriented functions or components, even though cyclomatic complexity is low.
+
+- **Introduce clear separation of concerns**  
+  Separate input handling, business rules, data transformation, and output or integration responsibilities.
+
+- **Encapsulate business rules**  
+  Move domain decisions into dedicated domain services or policy components rather than keeping them embedded in procedural logic.
+
+- **Standardize error handling**  
+  Define a consistent strategy for validation, exception handling, logging, and propagation of failures.
+
+- **Preserve and expand reusable boundaries**  
+  Retain the existing high reusability by minimizing hidden dependencies and exposing components through stable, well-defined interfaces.
+
+- **Reduce implementation density**  
+  Simplify complex expressions, clarify naming, and separate multi-purpose operations to lower Halstead volume and improve readability.
+
+## 4. Prioritized Recommendations
+
+### Priority 1 — High
+
+1. Remove the duplicated code through extraction into a shared component.
+2. Separate responsibilities into explicit functions or modules.
+3. Review and standardize error-handling behavior.
+
+### Priority 2 — Medium
+
+4. Encapsulate business rules in dedicated domain-level components.
+5. Simplify dense expressions and improve naming to reduce cognitive load.
+6. Define stable interfaces between reusable components.
+
+### Priority 3 — Low
+
+7. Add automated quality checks for duplication, maintainability, and complexity.
+8. Perform a manual clean-code review of data structures and error paths.
+9. Recalculate maintainability metrics after refactoring to confirm improvement.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 64.84
+After  : 69.2
+Delta  : 4.36
+
+------------------------------------------
+
+Reusability Index
+Before : 0.8276
+After  : 0.6914
+Delta  : -0.14
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is **partially successful**. It improved maintainability and reduced code complexity and duplication. However, these gains came with increased coupling and reduced measured reusability, so further refinement is recommended.
+
+## Improvements
+
+- Maintainability improved from **Low** to **Medium**, indicating the code is easier to understand and modify.
+- The reduction in lines of code and Halstead volume suggests less implementation complexity.
+- Cyclomatic complexity remained stable, with no increase in control-flow complexity.
+- Duplicated code was reduced from five lines to three lines.
+- Introducing dedicated request classes and a service layer likely improved separation of responsibilities and controller organization.
+- No long-method or large-class issues were detected.
+
+## Remaining Issues
+
+- Coupling increased substantially because the refactored controller now depends on request classes, a service, response contracts, and related components.
+- Reusability declined from **High** to **Medium**, primarily due to the increased number of dependencies.
+- Three lines of duplicated code remain and should be reviewed.
+- The dependency list contains both `App\Services\MasterPotonganService` and `MasterPotonganService`, which may indicate an inconsistent or redundant import/reference.
+- The absence of detected clean-code issues does not confirm that error handling, dependency design, and testability are fully adequate.
+
+## Recommendation
+
+Accept the refactoring as a **net improvement**, particularly for maintainability and responsibility separation. Before considering it complete:
+
+- Remove redundant or inconsistent service references.
+- Review whether all dependencies are necessary and use dependency injection consistently.
+- Extract or consolidate the remaining duplicated logic.
+- Add or strengthen unit and integration tests for the service and validation request classes.
+- Reassess coupling and reusability after these adjustments.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/MasterPotonganController/refactored', 'files': ['output/MasterPotonganController/refactored/app/Http/Requests/Admin/StoreMasterPotonganRequest.php', 'output/MasterPotonganController/refactored/app/Http/Requests/Admin/UpdateMasterPotonganRequest.php', 'output/MasterPotonganController/refactored/app/Repositories/Contracts/MasterPotonganRepositoryInterface.php', 'output/MasterPotonganController/refactored/app/Repositories/EloquentMasterPotonganRepository.php', 'output/MasterPotonganController/refactored/app/Services/MasterPotonganService.php', 'output/MasterPotonganController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/MasterPotonganController/refactored/bootstrap/providers.php', 'output/MasterPotonganController/refactored/app/Http/Controllers/Admin/MasterPotonganController.php']}

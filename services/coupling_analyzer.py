@@ -15,57 +15,146 @@ class CouplingAnalyzer:
 
         dependencies = set()
 
-        # ==========================================
-        # use statement
-        # ==========================================
-
-        use_pattern = r"^use\s+(.+?);"
+        # =====================================================
+        # use statements
+        # =====================================================
 
         for match in re.findall(
-            use_pattern,
+
+            r"^\s*use\s+([^;]+);",
+
             source_code,
+
             re.MULTILINE
+
         ):
+
             dependencies.add(match.strip())
 
-        # ==========================================
-        # Facades
-        # ==========================================
+        # =====================================================
+        # Constructor Injection
+        # =====================================================
+
+        constructor_pattern = (
+
+            r"__construct\s*\((.*?)\)"
+
+        )
+
+        constructor = re.search(
+
+            constructor_pattern,
+
+            source_code,
+
+            re.DOTALL
+
+        )
+
+        if constructor:
+
+            params = constructor.group(1)
+
+            for match in re.findall(
+
+                r"([A-Z][A-Za-z0-9_]+)\s+\$",
+
+                params
+
+            ):
+
+                dependencies.add(match)
+
+        # =====================================================
+        # new ClassName()
+        # =====================================================
+
+        for match in re.findall(
+
+            r"new\s+([A-Z][A-Za-z0-9_\\\\]+)",
+
+            source_code
+
+        ):
+
+            dependencies.add(match)
+
+        # =====================================================
+        # app(Class::class)
+        # =====================================================
+
+        for match in re.findall(
+
+            r"app\(\s*([A-Z][A-Za-z0-9_\\\\]+)::class",
+
+            source_code
+
+        ):
+
+            dependencies.add(match)
+
+        # =====================================================
+        # resolve(Class::class)
+        # =====================================================
+
+        for match in re.findall(
+
+            r"resolve\(\s*([A-Z][A-Za-z0-9_\\\\]+)::class",
+
+            source_code
+
+        ):
+
+            dependencies.add(match)
+
+        # =====================================================
+        # Laravel Facades
+        # =====================================================
 
         facades = [
 
-            "DB::",
+            "DB",
 
-            "Storage::",
+            "Storage",
 
-            "Mail::",
+            "Mail",
 
-            "Cache::",
+            "Cache",
 
-            "Auth::",
+            "Auth",
 
-            "Hash::",
+            "Hash",
 
-            "Log::",
+            "Log",
 
-            "Http::"
+            "Http",
+
+            "Validator",
+
+            "File",
+
+            "Gate",
+
+            "Queue",
+
+            "Notification"
 
         ]
 
         for facade in facades:
 
-            if facade in source_code:
+            if f"{facade}::" in source_code:
 
                 dependencies.add(facade)
 
-        # ==========================================
-        # Result
-        # ==========================================
+        # =====================================================
+        # Return
+        # =====================================================
 
         return {
 
             "ce": len(dependencies),
 
-            "dependencies": sorted(list(dependencies))
+            "dependencies": sorted(dependencies)
 
         }

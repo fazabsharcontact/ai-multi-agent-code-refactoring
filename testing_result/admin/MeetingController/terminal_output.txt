@@ -1,0 +1,237 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability: Low**
+  - Maintainability Index of **52.43** indicates that future modification and troubleshooting may require significant effort.
+  - High Halstead volume (**3195.35**) relative to only **110 LOC** suggests dense logic, many operations, or overly complex expressions.
+  - Cyclomatic complexity is low (**2**), so control-flow complexity is not the primary concern.
+
+- **Reusability: Medium**
+  - The code has some reusable characteristics, but its size, dependency structure, or high operation density may limit reuse.
+  - The component may be too tightly focused on a specific context or contain responsibilities that are not cleanly separated.
+
+- **Clean Code: No detected violations**
+  - No long methods, large classes, or explicit error-handling issues were identified by the available analysis.
+  - This does not eliminate architectural concerns; the metrics may not detect coupling, unclear responsibilities, or poor boundaries.
+
+- **Code Smell: Moderate duplication**
+  - Eight repeated lines indicate localized duplication that can cause inconsistent future changes.
+
+## 2. Main Problems
+
+1. **Low maintainability despite low cyclomatic complexity**
+   - The likely issue is not branching, but dense expressions, excessive operations, unclear abstractions, or tightly coupled responsibilities.
+
+2. **Duplicated logic**
+   - Repeated code increases maintenance effort and creates a risk that future fixes are applied inconsistently.
+
+3. **Limited reuse**
+   - Medium reusability suggests that responsibilities, interfaces, or dependencies may not be sufficiently modular.
+
+4. **Insufficient architectural visibility**
+   - The available metrics do not report coupling, cohesion, dependency direction, or module boundaries, so architectural weaknesses may remain hidden.
+
+## 3. Recommended Architectural Refactoring
+
+- **Extract duplicated behavior into a shared abstraction**
+  - Consolidate the repeated eight-line logic into one well-named reusable operation.
+  - Ensure the abstraction represents a stable business or technical responsibility rather than merely reducing line duplication.
+
+- **Separate responsibilities**
+  - Decompose the component into clear layers or modules, such as:
+    - input or interface handling,
+    - business rules,
+    - data access or external integration,
+    - validation and transformation.
+  - Keep business logic independent from infrastructure concerns.
+
+- **Simplify dense logic**
+  - Break complex expressions into smaller, intention-revealing operations.
+  - Replace implicit behavior with explicit domain-level abstractions where appropriate.
+  - Reduce unnecessary data transformations and repeated calculations.
+
+- **Introduce dependency inversion at integration boundaries**
+  - Isolate external services, persistence, configuration, and framework-specific concerns behind stable interfaces.
+  - Depend on abstractions in core logic to improve testability and reuse.
+
+- **Improve module cohesion**
+  - Group functions and data that change for the same reason.
+  - Move unrelated responsibilities into separate components rather than expanding the current module.
+
+- **Add architectural and maintainability tests**
+  - Establish tests around extracted shared behavior and key business rules.
+  - Add dependency or layer checks to prevent new coupling and duplication.
+
+## 4. Prioritized Recommendations
+
+### Priority 1 — Immediate
+
+1. **Remove the identified duplicated logic.**
+2. **Review the high Halstead volume and simplify dense operations.**
+3. **Identify and separate mixed responsibilities within the affected component.**
+
+### Priority 2 — Near Term
+
+4. **Create clear module or layer boundaries.**
+5. **Isolate external dependencies behind interfaces or adapters.**
+6. **Extract reusable business or technical services where responsibilities are shared.**
+
+### Priority 3 — Ongoing
+
+7. **Add tests for refactored behavior and regression protection.**
+8. **Monitor maintainability, duplication, coupling, and cohesion metrics in future changes.**
+9. **Set quality thresholds to prevent maintainability from declining further.**
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 52.43
+After  : 67.28
+Delta  : 14.85
+
+------------------------------------------
+
+Reusability Index
+Before : 0.6702
+After  : 0.6846
+Delta  : 0.01
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring was successful overall. It substantially improved maintainability and slightly improved reusability while preserving the same cyclomatic complexity. The code moved from **Low Maintainability** to **Medium Maintainability**, indicating a meaningful quality improvement.
+
+## Improvements
+
+- Code size decreased from 110 to 58 lines, making the implementation easier to read and maintain.
+- Halstead volume was significantly reduced, suggesting lower implementation complexity.
+- Maintainability Index improved from 52.43 to 67.28.
+- Reusability improved slightly, from 0.6702 to 0.6846.
+- Repeated code was reduced from 8 lines to 3 lines.
+- Introducing dedicated request classes and a `MeetingService` indicates better separation of validation, business logic, and controller responsibilities.
+- No long-method or large-class smells were detected.
+- Cyclomatic complexity remained low and unchanged, so the refactoring did not introduce additional branching complexity.
+
+## Remaining Issues
+
+- Coupling increased from 6 to 8 dependencies. This is an expected trade-off from introducing request and service layers, but it should be monitored to prevent excessive architectural dependency.
+- Code duplication still exists, although it has been reduced. The remaining repeated logic should be reviewed for possible consolidation.
+- Reusability remains in the **Medium** category rather than reaching a high level.
+- No clean-code findings were reported, but the absence of detected issues does not confirm the quality of error handling, function design, or data structures. These areas should still be reviewed through code inspection and testing.
+- The dependency list contains both `App\Services\MeetingService` and `MeetingService`, which may indicate inconsistent namespace references or a measurement artifact. This should be verified.
+
+## Recommendation
+
+Accept the refactoring as a successful improvement. Retain the service and request-class separation, then address the remaining duplication and verify dependency organization. Additional unit and integration tests should be added around validation, service behavior, database failures, and error handling to ensure the structural improvements do not reduce functional reliability.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/MeetingController/refactored', 'files': ['output/MeetingController/refactored/app/Repositories/Contracts/MeetingRepositoryInterface.php', 'output/MeetingController/refactored/app/Repositories/Contracts/PegawaiRepositoryInterface.php', 'output/MeetingController/refactored/app/Repositories/EloquentMeetingRepository.php', 'output/MeetingController/refactored/app/Repositories/EloquentPegawaiRepository.php', 'output/MeetingController/refactored/app/Services/MeetingService.php', 'output/MeetingController/refactored/app/Http/Requests/Admin/Meeting/MeetingRequest.php', 'output/MeetingController/refactored/app/Http/Requests/Admin/Meeting/StoreMeetingRequest.php', 'output/MeetingController/refactored/app/Http/Requests/Admin/Meeting/UpdateMeetingRequest.php', 'output/MeetingController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/MeetingController/refactored/bootstrap/providers.php', 'output/MeetingController/refactored/app/Http/Controllers/Admin/MeetingController.php']}

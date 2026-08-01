@@ -41,7 +41,27 @@ class EvaluatorAgent:
 
         original_code = refactoring_result["original_code"]
 
-        refactored_code = refactoring_result["refactored_code"]
+        # Ambil controller hasil refactoring
+        refactored_code = None
+
+        for file in refactoring_result["generated_files"]:
+
+            if "Controller" in file["path"]:
+
+                refactored_code = file["content"]
+
+                break
+
+
+        if refactored_code is None:
+
+            return {
+
+                "status": "failed",
+
+                "error": "Refactored controller not found"
+
+            }
 
         # =====================================================
         # ORIGINAL

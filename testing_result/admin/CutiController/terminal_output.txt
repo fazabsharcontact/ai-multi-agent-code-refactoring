@@ -1,0 +1,212 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability is low**: Maintainability Index **49.56** indicates the component may be difficult and costly to modify.
+- **Complexity is moderate to high**: Cyclomatic Complexity **9** suggests several decision paths and a higher testing burden.
+- **Implementation complexity is high**: Halstead Volume **6025.01** indicates substantial logic or operational detail relative to the component size.
+- **Reusability is low**: Reusability Index **0.4646** suggests the component is strongly tied to its current context and is not easily reused.
+- **Code duplication is present**: Five repeated lines create a small but avoidable maintenance risk.
+- No long methods, large classes, or explicit error-handling issues were detected; however, the empty findings do not guarantee that these areas are well designed.
+
+## 2. Main Problems
+
+- Excessive decision logic within a relatively small component.
+- High implementation complexity and likely weak separation of responsibilities.
+- Strong coupling, reflected by the high normalized coupling/external dependency score.
+- Limited reuse due to context-specific behavior and dependency relationships.
+- Repeated logic that may diverge when future changes are applied inconsistently.
+- Increased testing effort because of multiple execution paths.
+
+## 3. Recommended Architectural Refactoring
+
+- **Decompose decision-heavy logic into focused responsibilities** such as validation, business rules, transformation, and coordination.
+- **Introduce a policy/strategy-based design** for branching business behavior instead of accumulating conditional paths in one component.
+- **Extract shared repeated logic into a common utility or domain service**, provided the duplicated behavior has the same business meaning.
+- **Reduce coupling through dependency inversion and interface boundaries**, especially between business logic and infrastructure or external services.
+- **Separate orchestration from domain rules** so the main component coordinates operations rather than implementing all rules directly.
+- **Define clearer module boundaries** around cohesive business capabilities to improve reuse and independent testing.
+- **Simplify control flow** by using guard clauses, explicit validation stages, and smaller decision units.
+- **Add characterization and branch-focused tests before refactoring**, particularly for the nine complexity paths.
+
+## 4. Prioritized Recommendations
+
+### Priority 1 — Reduce coupling and separate responsibilities
+Establish clear module or service boundaries and isolate external dependencies. This will provide the largest improvement to maintainability and reusability.
+
+### Priority 2 — Decompose complex decision logic
+Split conditional behavior into focused policies or strategies. Target the paths contributing to the cyclomatic complexity of 9.
+
+### Priority 3 — Extract and centralize duplicated logic
+Remove the identified five-line duplication after confirming that the logic has identical intent and behavior.
+
+### Priority 4 — Improve testability and regression protection
+Create tests for each significant decision path before and during refactoring to reduce the risk of behavioral changes.
+
+### Priority 5 — Review module cohesion and reuse opportunities
+Identify context-specific operations that can become reusable domain services or components, while avoiding generic abstractions without clear shared use cases.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 49.56
+After  : 66.73
+Delta  : 17.17
+
+------------------------------------------
+
+Reusability Index
+Before : 0.4646
+After  : 0.6662
+Delta  : 0.2
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is successful. The code is substantially easier to maintain and reuse, with improvements in all key measured areas. Maintainability improved from **Low** to **Medium**, while reusability also improved from **Low** to **Medium**.
+
+## Improvements
+
+- **Maintainability improved significantly**:
+  - Reduced source size from 97 to 59 lines.
+  - Cyclomatic complexity decreased from 9 to 3, making control flow simpler.
+  - Halstead volume decreased substantially, indicating lower implementation complexity.
+  - Maintainability Index increased from 49.56 to 66.73.
+
+- **Reusability improved**:
+  - The reusability index increased from 0.4646 to 0.6662.
+  - Moving logic into `CutiService` likely improved separation of concerns and made business logic easier to reuse.
+  - Introducing `UpdateCutiStatusRequest` improves request validation organization.
+
+- **Coupling improved modestly**:
+  - External dependencies decreased from 9 to 8.
+  - Responsibilities appear to have been better distributed between the controller, service, and request class.
+
+## Remaining Issues
+
+- The code remains at **Medium Maintainability**, so additional simplification may still be beneficial.
+- The duplicated-code warning remains unchanged, with five repeated lines.
+- Coupling is still relatively significant, and the dependency list should be reviewed for unnecessary or inconsistent references, particularly the apparent duplicate `CutiService` entries.
+- No clean-code findings were reported, but the absence of findings does not confirm that error handling, function design, and data structures are fully optimal.
+- The refactoring metrics do not demonstrate whether automated tests, validation behavior, and exception handling have adequate coverage.
+
+## Recommendation
+
+Accept the refactoring as a clear improvement, but continue with targeted cleanup:
+
+1. Remove the remaining duplicated code.
+2. Review and normalize service imports and dependencies.
+3. Add or strengthen unit and integration tests for the extracted service and request validation.
+4. Verify error handling and authorization behavior after moving logic.
+5. Perform a follow-up static analysis after these changes to determine whether maintainability can reach the high category.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/CutiController/refactored', 'files': ['output/CutiController/refactored/app/Repositories/Contracts/CutiRepositoryInterface.php', 'output/CutiController/refactored/app/Repositories/Contracts/PegawaiRepositoryInterface.php', 'output/CutiController/refactored/app/Repositories/Contracts/SisaCutiRepositoryInterface.php', 'output/CutiController/refactored/app/Repositories/Contracts/KehadiranRepositoryInterface.php', 'output/CutiController/refactored/app/Repositories/EloquentCutiRepository.php', 'output/CutiController/refactored/app/Repositories/EloquentPegawaiRepository.php', 'output/CutiController/refactored/app/Repositories/EloquentSisaCutiRepository.php', 'output/CutiController/refactored/app/Repositories/EloquentKehadiranRepository.php', 'output/CutiController/refactored/app/Services/CutiService.php', 'output/CutiController/refactored/app/Http/Requests/Admin/UpdateCutiStatusRequest.php', 'output/CutiController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/CutiController/refactored/app/Http/Controllers/Admin/CutiController.php']}

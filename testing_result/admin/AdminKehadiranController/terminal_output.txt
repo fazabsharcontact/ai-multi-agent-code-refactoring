@@ -1,0 +1,221 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 2
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability: Low**  
+  The maintainability index of **57.46** indicates that future changes may require significant effort. Although the code has only **76 lines** and moderate cyclomatic complexity (**4**), its high Halstead volume suggests excessive operational or logical complexity.
+
+- **Reusability: Medium**  
+  The reusability index of **0.6577** shows that some components may be reusable, but dependencies and coupling limit reuse. The relatively high coupling indicator suggests that responsibilities may not be sufficiently isolated.
+
+- **Clean Code: No detected structural issues**  
+  No long methods, large classes, or explicit error-handling problems were identified. However, this indicates only that the analyzed rules found no violations; it does not guarantee strong readability or design quality.
+
+- **Code Smell: Moderate duplication**  
+  Six repeated lines were detected. This is not severe, but it can cause inconsistent updates and increase maintenance effort.
+
+## 2. Main Problems
+
+- High implementation complexity relative to the small code size.
+- Potentially unclear or overly dense logic.
+- Moderate coupling that may make components difficult to reuse or test independently.
+- Repeated logic that could diverge when future changes are introduced.
+- Maintainability risk despite the absence of obvious long methods or large classes.
+
+## 3. Recommended Architectural Refactoring
+
+1. **Extract duplicated logic into a shared abstraction**
+   - Consolidate the repeated six lines into a reusable function, service, or utility component.
+   - Ensure the abstraction represents a meaningful domain responsibility rather than merely reducing line repetition.
+
+2. **Separate responsibilities**
+   - Decompose mixed responsibilities such as validation, business processing, data transformation, and persistence.
+   - Use clear component boundaries to reduce cognitive complexity and improve testability.
+
+3. **Reduce coupling through dependency inversion**
+   - Depend on stable interfaces or contracts instead of concrete implementations.
+   - Isolate external services, storage, and framework-specific details behind adapters or gateways.
+
+4. **Simplify complex decision logic**
+   - Replace deeply nested or repeated conditional logic with focused policy, strategy, or rule components where appropriate.
+   - Make business rules explicit and independently testable.
+
+5. **Improve component-level reusability**
+   - Identify logic that is currently tied to one workflow or module.
+   - Move generic behavior into cohesive, domain-independent components while avoiding overly generic utilities.
+
+6. **Add architectural boundaries and tests**
+   - Define clear boundaries between presentation, application/orchestration, domain logic, and infrastructure.
+   - Add unit and component tests around extracted responsibilities before further refactoring.
+
+## 4. Prioritized Recommendations
+
+### High Priority
+
+1. **Remove the duplicated logic** to prevent inconsistent fixes.
+2. **Reduce coupling and separate external dependencies** to improve maintainability and reusability.
+3. **Decompose dense responsibilities and complex logic** into cohesive components.
+
+### Medium Priority
+
+4. **Extract reusable domain or utility services** where repeated behavior occurs across workflows.
+5. **Introduce explicit architectural layers or boundaries** to control dependency direction.
+
+### Low Priority
+
+6. **Perform readability and naming improvements** after structural changes.
+7. **Monitor maintainability and coupling metrics** in future revisions to verify that refactoring produces measurable improvement.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 57.46
+After  : 72.03
+Delta  : 14.57
+
+------------------------------------------
+
+Reusability Index
+Before : 0.6577
+After  : 0.8514
+Delta  : 0.19
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is successful overall. It produced a clear improvement in maintainability and reusability, while reducing complexity, code size, coupling, and duplicated code. The component moved from **Low Maintainability** to **Medium Maintainability**, and from **Medium Reusability** to **High Reusability**.
+
+## Improvements
+
+- Maintainability improved substantially, with the index increasing from **57.46 to 72.03**.
+- Lines of code decreased from **76 to 47**, making the implementation more concise.
+- Cyclomatic complexity was reduced from **4 to 2**, simplifying control flow and lowering testing effort.
+- Halstead volume decreased significantly, indicating reduced implementation complexity.
+- Coupling decreased from **7 to 4** dependencies.
+- Responsibilities were likely better separated through the introduction of `KehadiranService`.
+- Reusability improved from **0.6577 to 0.8514**, reaching the High Reusability category.
+- Code duplication was reduced from **6 lines to 4 lines**.
+- No long-method or large-class issues were detected.
+
+## Remaining Issues
+
+- Maintainability is improved but remains only in the **Medium** category; further simplification may still be possible.
+- Four lines of duplicated code remain and should be reviewed for extraction or consolidation.
+- Error handling and function-level clean-code findings are not identified by the available results. This does not necessarily mean error handling and function design are optimal.
+- Introducing a service improves separation of concerns, but its behavior should be covered by unit and integration tests.
+- Dependency reduction should be validated architecturally to ensure the service does not become a new concentration of business logic or excessive responsibility.
+
+## Recommendation
+
+Accept the refactoring as a successful improvement. As follow-up work, remove the remaining duplication, add or strengthen automated tests for the new service and controller interaction, and review error handling, validation, and service responsibilities to ensure the improved structural metrics are supported by reliable behavior.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/AdminKehadiranController/refactored', 'files': ['output/AdminKehadiranController/refactored/app/Repositories/Contracts/KehadiranRepositoryInterface.php', 'output/AdminKehadiranController/refactored/app/Repositories/EloquentKehadiranRepository.php', 'output/AdminKehadiranController/refactored/app/Services/KehadiranService.php', 'output/AdminKehadiranController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/AdminKehadiranController/refactored/app/Http/Controllers/Admin/AdminKehadiranController.php']}

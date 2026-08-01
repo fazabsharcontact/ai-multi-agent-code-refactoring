@@ -25,9 +25,13 @@ class AnalysisAgent:
 
     def __init__(self, laravel_project_path):
 
-        self.reader = LaravelReader(laravel_project_path)
+        self.reader = LaravelReader(
+            laravel_project_path
+        )
 
         self.maintainability = MaintainabilityAnalyzer()
+
+        self.coupling = CouplingAnalyzer()
 
         self.reusability = ReusabilityAnalyzer()
 
@@ -40,7 +44,7 @@ class AnalysisAgent:
     def analyze(self, controller_path):
 
         # =================================================
-        # Read Source Code
+        # Read Controller
         # =================================================
 
         source_code = self.reader.read_controller(
@@ -96,7 +100,7 @@ class AnalysisAgent:
         )
 
         # =================================================
-        # Build Prompt
+        # Prompt
         # =================================================
 
         prompt = build_analysis_prompt(
@@ -112,7 +116,7 @@ class AnalysisAgent:
         )
 
         # =================================================
-        # LLM Recommendation
+        # LLM
         # =================================================
 
         response = client.responses.create(

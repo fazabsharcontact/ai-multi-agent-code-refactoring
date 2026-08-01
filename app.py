@@ -1,5 +1,5 @@
 from orchestrator.workflow import WorkflowOrchestrator
-from batch.batch_runner import BatchRunner
+# from batch.batch_runner import BatchRunner
 
 
 LARAVEL_PROJECT = "../INOVINDO-EmployeeManagement"
@@ -27,13 +27,13 @@ if choice == "1":
 
     workflow.start()
 
-elif choice == "2":
+# elif choice == "2":
 
-    batch = BatchRunner(
-        LARAVEL_PROJECT
-    )
+#     batch = BatchRunner(
+#         LARAVEL_PROJECT
+#     )
 
-    batch.run()
+#     batch.run()
 
 else:
 

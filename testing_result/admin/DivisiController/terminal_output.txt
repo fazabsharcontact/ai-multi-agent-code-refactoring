@@ -1,0 +1,191 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## Refactoring Recommendations
+
+### 1. Consolidate the duplicated logic — **High priority**
+- Extract the repeated five-line block into a shared function, utility, or service component.
+- Replace all duplicate implementations with calls to the shared component.
+- Define a single source of truth for the duplicated behavior.
+- Add regression tests to ensure all existing usage paths behave consistently.
+
+**Rationale:** Duplication is the only detected code smell and may cause inconsistent future changes.
+
+### 2. Reduce implementation complexity — **Medium priority**
+- Decompose dense logic into small, intention-revealing functions where appropriate.
+- Separate decision-making, data transformation, and side effects.
+- Use meaningful abstractions rather than embedding multiple responsibilities in one operation.
+
+**Rationale:** Cyclomatic complexity is low, but the Halstead volume is relatively high and maintainability is only medium.
+
+### 3. Improve module boundaries — **Medium priority**
+- Move reusable logic into cohesive domain or utility modules.
+- Keep business rules independent from infrastructure, I/O, and presentation concerns.
+- Expose stable interfaces so consumers depend on abstractions rather than implementation details.
+
+**Rationale:** The high reusability index indicates that the component is suitable for broader reuse, but clear boundaries will make that reuse safer and more maintainable.
+
+### 4. Preserve and formalize existing reuse — **Medium priority**
+- Identify the logic already reused across modules and document its intended responsibilities.
+- Avoid copying reusable behavior into new components.
+- Establish shared validation, transformation, and error-handling policies.
+
+**Rationale:** Reusability is strong, but undocumented reuse can lead to inconsistent extensions and renewed duplication.
+
+### 5. Strengthen maintainability safeguards — **Low priority**
+- Add focused unit tests around extracted shared behavior and key decision paths.
+- Use automated duplication and complexity checks in the quality pipeline.
+- Review the component after refactoring to confirm that maintainability improves without reducing reuse.
+
+**Overall assessment:** The component has good reuse potential and no evidence of long methods or oversized classes. The main improvement is to remove the detected duplication and clarify module responsibilities, which should raise maintainability from medium to high.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 65.7
+After  : 66.74
+Delta  : 1.04
+
+------------------------------------------
+
+Reusability Index
+Before : 0.8144
+After  : 0.7437
+Delta  : -0.07
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring is **partially successful**. It slightly improves maintainability and reduces code volume and Halstead complexity, while preserving cyclomatic complexity. However, reusability decreases from **High** to **Medium**, primarily because the refactored design introduces additional dependencies.
+
+## Improvements
+
+- Maintainability Index increased from **65.7 to 66.74**, indicating a modest improvement.
+- Lines of code decreased from **59 to 57**.
+- Halstead volume decreased from **1660.07 to 1512.91**, suggesting reduced implementation complexity.
+- Cyclomatic complexity remained unchanged at **3**, so control-flow complexity did not worsen.
+- Introducing dedicated request classes and a service layer likely improves separation of concerns and makes validation and business logic easier to maintain.
+- No long methods, large classes, or other clean-code violations were detected.
+
+## Remaining Issues
+
+- Coupling increased from **4 to 6** due to the addition of request and service classes.
+- Reusability declined from **0.8144** to **0.7437**, changing the classification from **High** to **Medium Reusability**.
+- The duplicated-code issue remains unchanged, with five repeated lines.
+- Maintainability is still classified as **Medium**, so the improvement is limited rather than substantial.
+- The dependency list includes both `App\Services\DivisiService` and `DivisiService`, which may indicate an import or namespace inconsistency that should be reviewed.
+- The metrics do not demonstrate whether behavior, validation, or error handling has improved; this requires test verification.
+
+## Recommendation
+
+Accept the refactoring as a **qualified improvement**. The separation of validation and service responsibilities is beneficial, and maintainability improved slightly. Before considering the work fully successful, remove the remaining duplication, verify the service dependency and namespace usage, and add or strengthen automated tests for controller, request-validation, and service behavior. Further reduction of unnecessary dependencies should also be considered to recover reusability.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/DivisiController/refactored', 'files': ['output/DivisiController/refactored/app/Repositories/Contracts/DivisiRepositoryInterface.php', 'output/DivisiController/refactored/app/Repositories/EloquentDivisiRepository.php', 'output/DivisiController/refactored/app/Services/DivisiService.php', 'output/DivisiController/refactored/app/Http/Requests/Admin/StoreDivisiRequest.php', 'output/DivisiController/refactored/app/Http/Requests/Admin/UpdateDivisiRequest.php', 'output/DivisiController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/DivisiController/refactored/app/Http/Controllers/Admin/DivisiController.php']}

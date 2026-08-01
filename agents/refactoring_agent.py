@@ -5,6 +5,8 @@ Agent yang bertugas melakukan refactoring source code
 berdasarkan hasil analisis menggunakan Large Language Model.
 """
 
+import re
+
 from config import client, REFACTORING_MODEL
 from prompts.refactoring_prompt import build_refactoring_prompt
 
@@ -12,16 +14,14 @@ from prompts.refactoring_prompt import build_refactoring_prompt
 class RefactoringAgent:
 
     def __init__(self):
+
         self.client = client
 
     # =====================================================
-    # Utility
+    # Clean Response
     # =====================================================
 
     def clean_response(self, text: str) -> str:
-        """
-        Menghapus markdown ```php dari output LLM.
-        """
 
         text = text.strip()
 
@@ -37,6 +37,34 @@ class RefactoringAgent:
         return text.strip()
 
     # =====================================================
+    # Parse Generated Files
+    # =====================================================
+
+    def parse_files(self, response_text):
+
+        files = []
+
+        pattern = r"===== FILE =====\s*(.*?)\n(.*?)(?=(?:===== FILE =====)|$)"
+
+        matches = re.findall(
+            pattern,
+            response_text,
+            flags=re.DOTALL
+        )
+
+        for path, content in matches:
+
+            files.append({
+
+                "path": path.strip(),
+
+                "content": content.strip()
+
+            })
+
+        return files
+
+    # =====================================================
     # Refactor
     # =====================================================
 
@@ -49,9 +77,13 @@ class RefactoringAgent:
         source_code = analysis_result["source_code"]
 
         prompt = build_refactoring_prompt(
+
             source_code,
+
             analysis_result,
+
             user_feedback
+
         )
 
         try:
@@ -64,8 +96,12 @@ class RefactoringAgent:
 
             )
 
-            refactored_code = self.clean_response(
+            raw_output = self.clean_response(
                 response.output_text
+            )
+
+            generated_files = self.parse_files(
+                raw_output
             )
 
             return {
@@ -76,7 +112,9 @@ class RefactoringAgent:
 
                 "original_code": source_code,
 
-                "refactored_code": refactored_code,
+                "generated_files": generated_files,
+
+                "raw_output": raw_output,
 
                 "analysis": analysis_result,
 
@@ -94,7 +132,9 @@ class RefactoringAgent:
 
                 "original_code": source_code,
 
-                "refactored_code": None,
+                "generated_files": [],
+
+                "raw_output": None,
 
                 "analysis": analysis_result,
 

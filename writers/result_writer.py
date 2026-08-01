@@ -1,8 +1,8 @@
 """
 Result Writer
 
-Bertugas menyimpan hasil refactoring
-ke folder output.
+Menyimpan seluruh file hasil refactoring
+ke folder output dengan struktur Laravel.
 """
 
 from pathlib import Path
@@ -20,20 +20,44 @@ class ResultWriter:
 
         controller = refactoring_result["controller"]
 
-        refactored_code = refactoring_result["refactored_code"]
+        generated_files = refactoring_result["generated_files"]
 
-        controller_path = Path(controller)
+        controller_name = Path(controller).stem
 
-        folder = self.output_dir / controller_path.parent
+        base_folder = self.output_dir / controller_name / "refactored"
 
-        folder.mkdir(parents=True, exist_ok=True)
+        base_folder.mkdir(
+            parents=True,
+            exist_ok=True
+        )
 
-        filename = controller_path.stem + "_refactored.php"
+        saved_files = []
 
-        output_file = folder / filename
+        for file in generated_files:
 
-        with open(output_file, "w", encoding="utf-8") as f:
+            relative_path = Path(file["path"])
 
-            f.write(refactored_code)
+            output_file = base_folder / relative_path
 
-        return str(output_file)
+            output_file.parent.mkdir(
+                parents=True,
+                exist_ok=True
+            )
+
+            with open(
+                output_file,
+                "w",
+                encoding="utf-8"
+            ) as f:
+
+                f.write(file["content"])
+
+            saved_files.append(str(output_file))
+
+        return {
+
+            "folder": str(base_folder),
+
+            "files": saved_files
+
+        }

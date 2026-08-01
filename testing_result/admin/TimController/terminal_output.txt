@@ -1,0 +1,234 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality
+
+- **Maintainability: Low**  
+  The maintainability index of **63.89** indicates that future modification and troubleshooting may require significant effort. Although the code is relatively small (**64 LOC**) and has low cyclomatic complexity (**3**), its high Halstead volume suggests substantial implementation complexity or dense logic.
+
+- **Reusability: High**  
+  The reusability index of **0.7688** is favorable. The code appears sufficiently modular or independent for reuse in other components, with acceptable coupling and complexity levels.
+
+- **Clean Code: No detected issues**  
+  No long methods, large classes, or error-handling problems were identified by the available analysis. This should be validated with code review because empty results may also indicate limited rule coverage.
+
+- **Code Smell: Moderate duplication**  
+  Five repeated lines were detected. This is not severe, but it can cause inconsistent fixes and unnecessary maintenance effort.
+
+## 2. Main Problems
+
+- Low overall maintainability despite low structural complexity.
+- Potentially dense or overly complicated expressions, reflected by the high Halstead volume.
+- Repeated logic in at least one or more locations.
+- Maintainability risks are not fully visible through cyclomatic complexity alone.
+- Error-handling and clean-code metrics may be incomplete because no findings were reported.
+
+## 3. Recommended Architectural Refactoring
+
+- **Extract duplicated logic into a shared utility or service**
+  - Centralize the repeated five-line behavior.
+  - Define one authoritative implementation and reuse it through clear interfaces.
+
+- **Decompose dense logic into focused responsibilities**
+  - Separate calculation, validation, transformation, and orchestration responsibilities where they are currently combined.
+  - Prefer small, cohesive components even though no long-method violation was detected.
+
+- **Introduce clear module boundaries**
+  - Group related functionality into cohesive modules.
+  - Minimize direct dependencies between modules and preserve one-way dependency flow.
+
+- **Reduce implementation complexity**
+  - Replace deeply nested expressions or conditional logic with named domain-level operations.
+  - Use meaningful abstractions to make intent explicit and reduce Halstead volume.
+
+- **Strengthen error-handling boundaries**
+  - Standardize validation, exception handling, and failure reporting at module or service boundaries.
+  - Ensure errors are handled consistently rather than implicitly.
+
+- **Add maintainability-focused tests before major refactoring**
+  - Protect existing behavior, particularly around duplicated logic and complex calculations.
+  - Include boundary and failure-path coverage.
+
+- **Preserve and formalize reusable interfaces**
+  - Since reusability is already high, avoid unnecessary redesign.
+  - Document public contracts and dependencies so reuse does not introduce hidden coupling.
+
+## 4. Priority
+
+### High Priority
+
+1. **Extract and centralize duplicated logic.**
+2. **Review high-volume or dense implementation areas to identify hidden complexity.**
+3. **Add characterization and regression tests before structural changes.**
+
+### Medium Priority
+
+4. **Separate mixed responsibilities into cohesive modules or services.**
+5. **Standardize validation and error-handling boundaries.**
+6. **Improve dependency direction and reduce module coupling.**
+
+### Low Priority
+
+7. **Document reusable interfaces and module contracts.**
+8. **Perform periodic quality reviews to confirm maintainability improves without reducing reusability.**
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 63.89
+After  : 64.43
+Delta  : 0.54
+
+------------------------------------------
+
+Reusability Index
+Before : 0.7688
+After  : 0.6964
+Delta  : -0.07
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring provides a modest improvement in maintainability, but the overall result is mixed. The maintainability index increased slightly, while the maintainability category remains **Low Maintainability**. The refactoring appears to improve separation of responsibilities, particularly through the introduction of `SaveTimRequest` and `TimService`, but this introduced additional dependencies and reduced the measured reusability.
+
+## Improvements
+
+- Maintainability improved slightly, supported by:
+  - Reduced lines of code.
+  - Lower Halstead volume, indicating somewhat less implementation complexity.
+  - A small increase in the maintainability index.
+- Cyclomatic complexity remained unchanged, so the refactoring did not introduce additional control-flow complexity.
+- The introduction of a dedicated request class and service suggests better separation of validation and business logic.
+- No long-method or large-class issues were detected.
+
+## Remaining Issues
+
+- The maintainability classification remains **Low Maintainability**, so the improvement is not substantial.
+- Coupling increased from 5 to 7 dependencies. The controller now depends on additional request, service, response, and view components.
+- Reusability declined from **High** to **Medium**, primarily due to the increased dependency footprint.
+- The same duplicated-code finding remains, with five repeated lines.
+- No clean-code findings were reported for functions, data structures, or error handling, but this does not necessarily confirm that error handling and abstractions are fully optimal.
+- The dependency list contains both `App\Services\TimService` and `TimService`, which may indicate an inconsistent reference, import, or analysis artifact that should be verified.
+
+## Recommendation
+
+The refactoring is **partially successful**. It improves structure and slightly improves maintainability, but the increased coupling and reduced reusability offset some of the benefits.
+
+Further improvements should include:
+
+- Review and reduce unnecessary controller dependencies.
+- Ensure `TimService` is consistently namespaced and injected through dependency injection.
+- Move additional business logic into the service if the controller still contains application logic.
+- Remove the remaining duplicated code.
+- Add or strengthen unit tests for the service and request validation.
+- Reassess maintainability after these changes, with the goal of moving beyond the current low-maintainability classification.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/TimController/refactored', 'files': ['output/TimController/refactored/app/Repositories/Contracts/TimRepositoryInterface.php', 'output/TimController/refactored/app/Repositories/Contracts/DivisiRepositoryInterface.php', 'output/TimController/refactored/app/Repositories/EloquentTimRepository.php', 'output/TimController/refactored/app/Repositories/EloquentDivisiRepository.php', 'output/TimController/refactored/app/Services/TimService.php', 'output/TimController/refactored/app/Http/Requests/Admin/SaveTimRequest.php', 'output/TimController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/TimController/refactored/bootstrap/providers.php', 'output/TimController/refactored/app/Http/Controllers/Admin/TimController.php']}
