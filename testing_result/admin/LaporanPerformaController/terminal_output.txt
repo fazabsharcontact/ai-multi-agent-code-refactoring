@@ -1,0 +1,203 @@
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 1
+
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 11
+
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability: Low** — Maintainability Index **45.36**, with **113 LOC**, cyclomatic complexity **16**, and high Halstead volume (**6161.49**). The component is relatively difficult to understand, test, and modify safely.
+- **Reusability: Low** — Reusability Index **0.3207**. High normalized complexity and coupling indicate that the component is strongly dependent on its current context.
+- **Clean Code:** No specific function, data-structure, or error-handling violations were detected, but this does not eliminate structural complexity.
+- **Code Smell:** Medium-severity duplication was detected across **3 repeated lines**. The duplication is small but should be removed to prevent inconsistent future changes.
+
+## 2. Main Problems
+
+- Excessive decision logic concentrated in one component, reflected by cyclomatic complexity **16**.
+- High implementation complexity, making behavior harder to comprehend and validate.
+- Limited reuse due to coupling and context-specific logic.
+- Potentially insufficient separation of responsibilities, even though no long-method or large-class rule was triggered.
+- Repeated logic creates a minor maintenance and consistency risk.
+- Higher risk of regression when modifying conditional flows.
+
+## 3. Recommended Architectural Refactoring
+
+- **Decompose complex decision logic** into focused policies, strategies, or domain services based on distinct business rules.
+- **Separate responsibilities** such as validation, decision-making, transformation, persistence, and error handling into independent components.
+- **Introduce a strategy or rule-based architecture** if the complexity comes from many conditional branches or variants.
+- **Extract shared behavior** into a common utility or service to eliminate the detected duplication.
+- **Reduce coupling through explicit interfaces or dependency inversion**, allowing the component to depend on abstractions rather than concrete implementations.
+- **Move context-specific logic outward** and keep the core component focused on a single business responsibility.
+- **Add characterization and branch-focused tests** before and during refactoring to protect existing behavior.
+- **Refactor incrementally**, preserving externally observable behavior and validating complexity after each change.
+
+## 4. Priority
+
+### High Priority
+
+1. Decompose the logic responsible for cyclomatic complexity **16**.
+2. Separate distinct responsibilities and reduce component coupling.
+3. Add tests covering major decision paths before structural changes.
+
+### Medium Priority
+
+4. Apply a strategy/rule-based design for repeated or variable conditional behavior.
+5. Extract the duplicated three-line logic into a shared abstraction.
+6. Introduce dependency inversion where concrete dependencies restrict reuse.
+
+### Low Priority
+
+7. Consolidate naming, documentation, and error-handling conventions after structural refactoring.
+8. Recalculate maintainability and reusability metrics after each major refactoring stage.
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 1
+
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 1
+
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 45.36
+After  : 69.77
+Delta  : 24.41
+
+------------------------------------------
+
+Reusability Index
+Before : 0.3207
+After  : 0.7604
+Delta  : 0.44
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring was successful. The code became substantially easier to maintain and reuse, with lower complexity, fewer dependencies, and a clearer separation of responsibilities through the introduction of `LaporanPerformaService`.
+
+## Improvements
+
+- Maintainability improved from **Low** to **Medium**, reflected by the significant increase in the maintainability index.
+- Code size and Halstead volume were substantially reduced, indicating less implementation complexity.
+- Cyclomatic complexity decreased considerably, making the control flow easier to understand, test, and modify.
+- Coupling was reduced from 9 to 6 dependencies.
+- Reusability improved from **Low** to **High**, supported by the large increase in the reusability index.
+- No long-method or large-class issues were detected.
+- Business logic appears to have been moved out of the controller into a dedicated service, improving separation of concerns.
+
+## Remaining Issues
+
+- Duplicated code still exists, although it was reduced from three repeated lines to two.
+- No explicit clean-code findings were identified for functions, data structures, or error handling; however, this may indicate that these areas were not fully analyzed rather than proving they are optimal.
+- The controller still depends on several framework and utility components, including PDF generation and request handling.
+- Error handling and validation practices should be reviewed, particularly in the extracted service.
+- The dependency list contains both a fully qualified service name and `LaporanPerformaService`, which should be checked for duplicate or inconsistent dependency reporting.
+
+## Recommendation
+
+Accept the refactoring as a clear improvement. As follow-up work, remove the remaining duplication, add or strengthen automated tests for the service and controller, review validation and exception handling, and verify that dependency injection and service boundaries are consistently implemented.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 1
+
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/LaporanPerformaController/refactored', 'files': ['output/LaporanPerformaController/refactored/app/Repositories/Contracts/LaporanPerformaRepositoryInterface.php', 'output/LaporanPerformaController/refactored/app/Repositories/EloquentLaporanPerformaRepository.php', 'output/LaporanPerformaController/refactored/app/Services/LaporanPerformaService.php', 'output/LaporanPerformaController/refactored/app/Providers/RepositoryServiceProvider.php', 'output/LaporanPerformaController/refactored/app/Http/Controllers/Admin/LaporanPerformaController.php']}

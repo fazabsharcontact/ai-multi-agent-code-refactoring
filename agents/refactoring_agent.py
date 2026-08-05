@@ -10,12 +10,25 @@ import re
 from config import client, REFACTORING_MODEL
 from prompts.refactoring_prompt import build_refactoring_prompt
 
+import re
+import time
+
 
 class RefactoringAgent:
 
     def __init__(self):
 
         self.client = client
+
+    # =====================================================
+    # Progress
+    # =====================================================
+
+    def step(self, message):
+
+        print(f"\n{message}")
+
+        time.sleep(0.4)
 
     # =====================================================
     # Clean Response
@@ -44,7 +57,11 @@ class RefactoringAgent:
 
         files = []
 
-        pattern = r"===== FILE =====\s*(.*?)\n(.*?)(?=(?:===== FILE =====)|$)"
+        pattern = (
+            r"===== STEP =====\s*(.*?)\s*"
+            r"===== FILE =====\s*(.*?)\n"
+            r"(.*?)(?=(?:===== STEP =====)|$)"
+        )
 
         matches = re.findall(
             pattern,
@@ -52,9 +69,11 @@ class RefactoringAgent:
             flags=re.DOTALL
         )
 
-        for path, content in matches:
+        for step, path, content in matches:
 
             files.append({
+
+                "step": step.strip(),
 
                 "path": path.strip(),
 
@@ -74,35 +93,94 @@ class RefactoringAgent:
         user_feedback=""
     ):
 
-        source_code = analysis_result["source_code"]
+        print("\n==========================================")
+        print("REFACTORING AGENT")
+        print("==========================================")
 
-        prompt = build_refactoring_prompt(
-
-            source_code,
-
-            analysis_result,
-
-            user_feedback
-
-        )
+        print(f"\nController : {analysis_result['controller']}")
 
         try:
 
-            response = self.client.responses.create(
+            # ============================================
+            # Read Source
+            # ============================================
 
-                model=REFACTORING_MODEL,
+            self.step("Reading analysis result...")
 
-                input=prompt
+            source_code = analysis_result["source_code"]
 
+            print("✓ Analysis loaded.")
+
+            # ============================================
+            # Build Prompt
+            # ============================================
+
+            self.step("Building prompt...")
+
+            prompt = build_refactoring_prompt(
+                source_code,
+                analysis_result,
+                user_feedback
             )
+
+            print("✓ Prompt generated.")
+
+            # ============================================
+            # GPT
+            # ============================================
+
+            self.step("Sending prompt to GPT Sol...")
+
+            response = self.client.responses.create(
+                model=REFACTORING_MODEL,
+                input=prompt
+            )
+
+            print("✓ GPT response received.")
+
+            # ============================================
+            # Clean
+            # ============================================
+
+            self.step("Cleaning response...")
 
             raw_output = self.clean_response(
                 response.output_text
             )
 
+            print("✓ Response cleaned.")
+
+            # ============================================
+            # Parse Files
+            # ============================================
+
+            self.step("Generating Laravel structure...")
+
             generated_files = self.parse_files(
                 raw_output
             )
+
+            print(
+                f"✓ {len(generated_files)} file(s) generated."
+            )
+
+            print("\n==========================================")
+            print("REFACTORING PROCESS")
+            print("==========================================")
+
+            for file in generated_files:
+
+                print(f"\n{file['step']}...")
+
+                time.sleep(0.25)
+
+                print(f"✓ {file['path']}")
+
+                time.sleep(0.15)
+
+            print("\n==========================================")
+            print("REFACTORING FINISHED")
+            print("==========================================")
 
             return {
 
@@ -123,6 +201,12 @@ class RefactoringAgent:
             }
 
         except Exception as e:
+
+            print("\n==========================================")
+            print("REFACTORING FAILED")
+            print("==========================================")
+
+            print(e)
 
             return {
 

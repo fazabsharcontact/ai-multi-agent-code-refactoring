@@ -20,6 +20,8 @@ from services.coupling_analyzer import CouplingAnalyzer
 from prompts.analysis_prompt import build_analysis_prompt
 from config import client, ANALYSIS_MODEL
 
+import time
+
 
 class AnalysisAgent:
 
@@ -41,35 +43,64 @@ class AnalysisAgent:
 
     # =====================================================
 
+    # =====================================================
+    # Progress
+    # =====================================================
+
+    def step(self, title):
+
+        print(f"\n{title}")
+
+        time.sleep(0.3)
+
     def analyze(self, controller_path):
 
-        # =================================================
-        # Read Controller
-        # =================================================
+        print("\n==========================================")
+        print("ANALYSIS AGENT")
+        print("==========================================")
+
+        print(f"\nController")
+        print(f"  {controller_path}")
+
+        self.step("Reading source code...")
 
         source_code = self.reader.read_controller(
             controller_path
         )
 
+        print("✓ Source code loaded.")
+
         # =================================================
         # Maintainability
         # =================================================
 
+        self.step("Calculating Maintainability Index...")
+
         maintainability_result = self.maintainability.analyze(
             source_code
+        )
+
+        print(
+            f"✓ MI : {maintainability_result['maintainability_index']}"
         )
 
         # =================================================
         # Coupling
         # =================================================
 
+        self.step("Analyzing Coupling...")
+
         coupling_result = self.coupling.analyze(
             source_code
         )
 
+        print(f"✓ Ce : {coupling_result['ce']}")
+
         # =================================================
         # Reusability
         # =================================================
+
+        self.step("Calculating Reusability Index...")
 
         reusability_result = self.reusability.analyze(
 
@@ -83,25 +114,39 @@ class AnalysisAgent:
 
         )
 
+        print(
+            f"✓ RI : {reusability_result['reusability_index']}"
+        )
+
         # =================================================
         # Clean Code
         # =================================================
+
+        self.step("Checking Clean Code violations...")
 
         clean_code_result = self.clean_code.analyze(
             source_code
         )
 
+        print("✓ Clean Code analysis completed.")
+
         # =================================================
         # Code Smell
         # =================================================
+
+        self.step("Detecting Code Smells...")
 
         code_smell_result = self.code_smell.analyze(
             source_code
         )
 
+        print("✓ Code Smell analysis completed.")
+
         # =================================================
         # Prompt
         # =================================================
+
+        self.step("Building prompt for GPT Luna...")
 
         prompt = build_analysis_prompt(
 
@@ -115,9 +160,13 @@ class AnalysisAgent:
 
         )
 
+        print("✓ Prompt generated.")
+
         # =================================================
         # LLM
         # =================================================
+
+        self.step("Sending prompt to GPT Luna...")
 
         response = client.responses.create(
 
@@ -129,9 +178,13 @@ class AnalysisAgent:
 
         recommendation = response.output_text
 
+        print("✓ Recommendation received.")
+
         # =================================================
         # Return
         # =================================================
+
+        print("\nAnalysis Agent completed successfully.")
 
         return {
 

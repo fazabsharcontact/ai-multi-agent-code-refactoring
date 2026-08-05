@@ -1,40 +1,23 @@
 from orchestrator.workflow import WorkflowOrchestrator
-# from batch.batch_runner import BatchRunner
 
+print("=" * 60)
+print("      AI REFACTORING MULTI-AGENT SYSTEM")
+print("=" * 60)
 
-LARAVEL_PROJECT = "../INOVINDO-EmployeeManagement"
+print()
 
-print("""
-====================================
+print("1. Start Workflow")
 
-AI Refactoring Multi-Agent
+print()
 
-====================================
-
-1. Manual Workflow
-
-2. Batch Processing
-
-""")
-
-choice = input("Select : ")
+choice = input("Select menu : ").strip()
 
 if choice == "1":
 
-    workflow = WorkflowOrchestrator(
-        LARAVEL_PROJECT
-    )
+    workflow = WorkflowOrchestrator()
 
     workflow.start()
 
-# elif choice == "2":
-
-#     batch = BatchRunner(
-#         LARAVEL_PROJECT
-#     )
-
-#     batch.run()
-
 else:
 
-    print("Invalid menu.")
+    print("\nInvalid menu.")

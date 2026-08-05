@@ -1,0 +1,221 @@
+
+====================================
+
+AI Refactoring Multi-Agent
+
+====================================
+
+1. Manual Workflow
+
+2. Batch Processing
+
+
+Select : 
+==========================================
+ AI Refactoring Multi-Agent
+ Plan-Based Orchestration
+==========================================
+
+Available Controllers
+
+[1] Admin/AdminController.php
+[2] Admin/AdminKehadiranController.php
+[3] Admin/AdminTugasController.php
+[4] Admin/AdminTugasPengumpulanController.php
+[5] Admin/CutiController.php
+[6] Admin/DashboardController.php
+[7] Admin/DivisiController.php
+[8] Admin/GajiController.php
+[9] Admin/GajiMassalController.php
+[10] Admin/JabatanController.php
+[11] Admin/LaporanPerformaController.php
+[12] Admin/MasterPotonganController.php
+[13] Admin/MasterTunjanganController.php
+[14] Admin/MeetingController.php
+[15] Admin/PegawaiController.php
+[16] Admin/PengumumanController.php
+[17] Admin/TimController.php
+[18] Admin/TimDivisiController.php
+[19] Admin/TunjanganPotonganController.php
+[20] Auth/AuthenticatedSessionController.php
+[21] Auth/ConfirmablePasswordController.php
+[22] Auth/EmailVerificationNotificationController.php
+[23] Auth/EmailVerificationPromptController.php
+[24] Auth/NewPasswordController.php
+[25] Auth/PasswordController.php
+[26] Auth/PasswordResetLinkController.php
+[27] Auth/RegisteredUserController.php
+[28] Auth/VerifyEmailController.php
+[29] Controller.php
+[30] Pegawai/PegawaiController.php
+[31] Pegawai/PegawaiCutiController.php
+[32] Pegawai/PegawaiDashboardController.php
+[33] Pegawai/PegawaiGajiController.php
+[34] Pegawai/PegawaiKehadiranController.php
+[35] Pegawai/PegawaiMeetingController.php
+[36] Pegawai/PegawaiPengumumanController.php
+[37] Pegawai/TugasPegawaiController.php
+[38] Pegawai/TugasPengumpulanController.php
+[39] ProfileController.php
+
+Select Controller : 
+Running Analysis Agent...
+
+==========================================
+ANALYSIS RESULT
+==========================================
+## 1. Software Quality Assessment
+
+- **Maintainability: Low**
+  - Maintainability Index of **46.96** indicates that the component may require significant effort to understand and modify.
+  - **117 LOC**, cyclomatic complexity of **10**, and high Halstead volume indicate notable implementation complexity.
+
+- **Reusability: Low**
+  - Reusability Index of **0.3028** suggests the component is tightly focused on its current context and has limited reuse potential.
+  - Normalized complexity and coupling values indicate that responsibilities may not be sufficiently modularized.
+
+- **Clean Code**
+  - No long methods, large classes, or explicit error-handling issues were detected.
+  - The absence of findings does not necessarily indicate high quality; readability and responsibility separation should still be reviewed.
+
+- **Code Smell**
+  - Three repeated lines were detected. Although limited in size, this duplication may cause inconsistent future changes.
+
+## 2. Main Problems
+
+1. Excessive overall implementation complexity.
+2. Low maintainability caused by combined control-flow and logical complexity.
+3. Limited modularity and reuse.
+4. Repeated logic that may lead to inconsistent behavior.
+5. Potentially unclear separation of responsibilities, despite no long-method or large-class findings.
+
+## 3. Recommended Architectural Refactoring
+
+- **Extract cohesive responsibilities**
+  - Separate validation, business rules, data transformation, and persistence or integration concerns into distinct components.
+
+- **Introduce a service-layer boundary**
+  - Keep orchestration separate from domain logic so business rules can be reused and tested independently.
+
+- **Extract shared logic**
+  - Consolidate the duplicated lines into a single well-named utility, domain service, or shared component.
+
+- **Reduce conditional complexity**
+  - Replace deeply branched decision logic with smaller policy components, strategy-based decisions, or rule objects where appropriate.
+
+- **Define clearer module interfaces**
+  - Expose only the operations required by consumers and reduce dependencies on implementation details.
+
+- **Improve dependency direction**
+  - Ensure higher-level business components do not depend directly on infrastructure details; use abstractions at architectural boundaries.
+
+- **Separate data structures from behavior where appropriate**
+  - Avoid mixing data handling, formatting, validation, and business decisions in the same component.
+
+## 4. Prioritized Recommendations
+
+### High Priority
+
+1. **Identify and separate the component’s primary responsibilities.**
+2. **Reduce cyclomatic complexity by decomposing decision-heavy logic.**
+3. **Remove the detected duplicated logic.**
+4. **Establish clear interfaces between business logic and infrastructure or data-access concerns.**
+
+### Medium Priority
+
+5. **Extract reusable domain or utility services from context-specific logic.**
+6. **Reduce coupling and improve dependency direction.**
+7. **Add focused tests around extracted responsibilities and decision branches.**
+
+### Low Priority
+
+8. **Review naming, documentation, and data-flow clarity.**
+9. **Recalculate maintainability and reusability metrics after refactoring.**
+10. **Monitor duplication and complexity during future changes to prevent regression.**
+
+==========================================
+
+Continue to Refactoring?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Refactoring Agent...
+
+==========================================
+REFACTORING COMPLETED
+==========================================
+
+Refactoring berhasil dilakukan.
+
+==========================================
+
+Continue to Evaluation?
+
+[1] Yes
+[0] Exit
+
+>> 
+Running Evaluator Agent...
+
+
+==========================================
+EVALUATION RESULT
+==========================================
+
+Maintainability Index
+Before : 46.96
+After  : 64.31
+Delta  : 17.35
+
+------------------------------------------
+
+Reusability Index
+Before : 0.3028
+After  : 0.6447
+Delta  : 0.34
+
+------------------------------------------
+
+LLM Evaluation
+
+## Overall Evaluation
+
+The refactoring was successful and produced a clear improvement in code quality. The code became smaller, less complex, less coupled, and more reusable. However, maintainability is still classified as **Low**, so further improvement is recommended.
+
+## Improvements
+
+- **Maintainability improved significantly**, with the maintainability index increasing from 46.96 to 64.31.
+- **Code size was reduced** from 117 to 64 lines, making the implementation easier to read and manage.
+- **Cyclomatic complexity decreased** from 10 to 6, reducing the number of logical paths and simplifying testing.
+- **Halstead volume decreased substantially**, indicating less implementation complexity.
+- **Coupling was reduced**, from 12 external dependencies to 7.
+- Responsibilities were better separated by introducing dedicated request classes and a `GajiMassalService`.
+- **Reusability improved** from Low to Medium, with the reusability index increasing from 0.3028 to 0.6447.
+
+## Remaining Issues
+
+- Maintainability remains categorized as **Low**, despite the improvement. The code may still benefit from additional simplification and clearer separation of responsibilities.
+- The same duplicated-code finding remains, with three repeated lines classified as a medium-severity issue.
+- No clean-code findings were reported, but the absence of findings does not necessarily confirm that error handling, function design, and data structures are fully optimal.
+- The extracted service and request classes should be reviewed to ensure they do not introduce unnecessary coupling or duplicate business logic.
+
+## Recommendation
+
+Accept the refactoring as a positive and effective improvement, but do not consider the work complete. Prioritize removing the remaining duplicated code, reviewing service responsibilities, improving error-handling consistency, and conducting targeted unit and integration testing. Further refactoring should aim to move the maintainability classification beyond **Low**.
+
+==========================================
+
+Accept Result?
+
+[1] Yes
+[0] Reject
+
+>> 
+==========================================
+RESULT SAVED
+==========================================
+
+Saved to:
+{'folder': 'output/GajiMassalController/refactored', 'files': ['output/GajiMassalController/refactored/app/Repositories/Contracts/GajiMassalRepositoryInterface.php', 'output/GajiMassalController/refactored/app/Repositories/EloquentGajiMassalRepository.php', 'output/GajiMassalController/refactored/app/Services/GajiMassalService.php', 'output/GajiMassalController/refactored/app/Http/Requests/Admin/GajiMassal/LangkahDuaGajiMassalRequest.php', 'output/GajiMassalController/refactored/app/Http/Requests/Admin/GajiMassal/SimpanGajiMassalRequest.php', 'output/GajiMassalController/refactored/app/Http/Requests/Admin/GajiMassal/CekGajiSudahAdaRequest.php', 'output/GajiMassalController/refactored/app/Http/Controllers/Admin/GajiMassalController.php']}

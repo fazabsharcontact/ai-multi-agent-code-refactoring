@@ -34,6 +34,14 @@ class LaravelReader:
                 f"Folder Controllers tidak ditemukan:\n{self.controller_dir}"
             )
 
+        print("\n==========================================")
+        print("LARAVEL READER")
+        print("==========================================")
+        print(f"\nProject Path")
+        print(f"  {self.project_path}")
+        print(f"\nController Directory")
+        print(f"  {self.controller_dir}")
+
         logger.info("Laravel Project : %s", self.project_path)
         logger.info("Controller Path : %s", self.controller_dir)
 
@@ -63,10 +71,17 @@ class LaravelReader:
 
         controllers = [
             str(file.relative_to(self.controller_dir))
-            for file in self.controller_dir.rglob("*.php")
+            for file in self.controller_dir.rglob("*Controller.php")
         ]
 
         controllers.sort()
+
+        print("\nScanning Controllers...\n")
+
+        for controller in controllers:
+            print(f"✓ {controller}")
+
+        print(f"\nTotal Controller : {len(controllers)}")
 
         logger.info("Found %s controller(s)", len(controllers))
 
@@ -111,6 +126,9 @@ class LaravelReader:
 
         logger.info("Reading %s", relative_path)
 
+        print(f"\nReading Controller")
+        print(f"✓ {relative_path}")
+
         return controller.read_text(
             encoding="utf-8",
             errors="ignore",
@@ -135,6 +153,9 @@ class LaravelReader:
         result = {}
 
         for controller in controller_list:
+
+            print(f"Loading {controller}")
+
             result[controller] = self.read_controller(controller)
 
         return result

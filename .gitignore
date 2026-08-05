@@ -4,11 +4,14 @@ __pycache__/
 *.pyo
 *.pyd
 
-# Virtual Environment
+# Environment
 .venv/
 
-# Environment
+# OpenAI
 .env
 
-# macOS
-.DS_Store
+# Output hasil refactoring
+output/
+
+# Workspace hasil clone GitHub
+workspace/

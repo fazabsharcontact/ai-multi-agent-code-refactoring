@@ -25,7 +25,9 @@ Your responsibilities:
 6. Follow Laravel Best Practices.
 7. Produce production-ready code.
 
+==================================================
 IMPORTANT RULES
+==================================================
 
 - NEVER remove existing features.
 - NEVER change application behaviour.
@@ -33,45 +35,83 @@ IMPORTANT RULES
 - NEVER omit methods.
 - NEVER replace implementation with comments.
 - NEVER return explanations.
-- NEVER use markdown code fences.
-- NEVER write ```php.
+- NEVER use markdown.
+- NEVER use ```php.
+- ALWAYS generate COMPLETE PHP files.
 
-Generate every required file separately.
+==================================================
+OUTPUT FORMAT
+==================================================
 
-If Repository Pattern is required, create:
+For every generated file you MUST output:
 
-- Repository Interface
-- Repository Implementation
-
-If Service Layer is required, create:
-
-- Service Class
-
-If Form Request is required, create:
-
-- Form Request Classes
-
-If Provider registration is required, create:
-
-- RepositoryServiceProvider
-
-Finally generate the refactored Controller.
-
-Output ONLY using the following format.
+===== STEP =====
+<short description>
 
 ===== FILE =====
-<relative/path/to/file.php>
+<relative/path>
 
 <complete php file>
 
+Example
+
+===== STEP =====
+Creating Service Layer
+
 ===== FILE =====
-<relative/path/to/file.php>
+app/Services/GajiService.php
 
-<complete php file>
+<?php
+...
 
-Repeat until every file has been generated.
+===== STEP =====
+Creating Repository Interface
 
-Do not output anything except this format.
+===== FILE =====
+app/Repositories/Contracts/GajiRepositoryInterface.php
+
+<?php
+...
+
+===== STEP =====
+Creating Repository Implementation
+
+===== FILE =====
+app/Repositories/EloquentGajiRepository.php
+
+<?php
+...
+
+===== STEP =====
+Creating Form Request
+
+===== FILE =====
+app/Http/Requests/StoreGajiRequest.php
+
+<?php
+...
+
+===== STEP =====
+Registering Repository Binding
+
+===== FILE =====
+app/Providers/RepositoryServiceProvider.php
+
+<?php
+...
+
+===== STEP =====
+Updating Controller
+
+===== FILE =====
+app/Http/Controllers/Admin/GajiController.php
+
+<?php
+...
+
+Repeat until every required file has been generated.
+
+Output NOTHING except STEP and FILE blocks.
 """
 
 
@@ -107,80 +147,38 @@ REFACTORING OBJECTIVES
 ==================================================
 
 1. Reduce controller responsibility.
-
 2. Move business logic into Service Layer.
-
 3. Move database access into Repository Layer.
-
 4. Apply Dependency Injection.
-
 5. Apply SOLID Principle.
-
 6. Improve Maintainability Index.
-
 7. Improve Reusability Index.
-
 8. Reduce Cyclomatic Complexity.
-
 9. Reduce duplicated code.
-
 10. Preserve every existing endpoint.
-
 11. Preserve every validation rule.
-
 12. Preserve every route.
-
 13. Preserve every response.
-
 14. Preserve every redirect.
-
 15. Preserve every database transaction.
-
 16. Preserve every query result.
-
-17. Generate complete production-ready files.
+17. Generate production-ready Laravel code.
 
 ==================================================
-OUTPUT FORMAT
+REMINDER
 ==================================================
 
-Example:
+Every file MUST begin with:
+
+===== STEP =====
+
+followed by
 
 ===== FILE =====
-app/Services/GajiService.php
 
-<?php
-...
+Do NOT explain anything.
 
-===== FILE =====
-app/Repositories/Contracts/GajiRepositoryInterface.php
+Do NOT write markdown.
 
-<?php
-...
-
-===== FILE =====
-app/Repositories/EloquentGajiRepository.php
-
-<?php
-...
-
-===== FILE =====
-app/Providers/RepositoryServiceProvider.php
-
-<?php
-...
-
-===== FILE =====
-app/Http/Controllers/Admin/GajiController.php
-
-<?php
-...
-
-Generate ALL required files.
-
-Do not explain anything.
-
-Do not use markdown.
-
-Output only files.
+Output only STEP and FILE sections.
 """

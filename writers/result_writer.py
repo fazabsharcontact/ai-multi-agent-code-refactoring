@@ -6,6 +6,7 @@ ke folder output dengan struktur Laravel.
 """
 
 from pathlib import Path
+import time
 
 
 class ResultWriter:
@@ -14,6 +15,18 @@ class ResultWriter:
 
         self.output_dir = Path(output_dir)
 
+    # =====================================================
+    # Progress
+    # =====================================================
+
+    def step(self, message):
+
+        print(message)
+
+        time.sleep(0.2)
+
+    # =====================================================
+    # Save Generated Files
     # =====================================================
 
     def save(self, refactoring_result):
@@ -24,12 +37,26 @@ class ResultWriter:
 
         controller_name = Path(controller).stem
 
-        base_folder = self.output_dir / controller_name / "refactored"
+        base_folder = (
+            self.output_dir
+            / controller_name
+            / "refactored"
+        )
+
+        print("\n==========================================")
+        print("RESULT WRITER")
+        print("==========================================")
+
+        self.step("\nPreparing output directory...")
 
         base_folder.mkdir(
             parents=True,
             exist_ok=True
         )
+
+        print(f"✓ {base_folder}")
+
+        print("\nWriting generated files...\n")
 
         saved_files = []
 
@@ -44,6 +71,8 @@ class ResultWriter:
                 exist_ok=True
             )
 
+            print(f"Creating : {relative_path}")
+
             with open(
                 output_file,
                 "w",
@@ -52,7 +81,17 @@ class ResultWriter:
 
                 f.write(file["content"])
 
+            print("✓ Saved")
+
             saved_files.append(str(output_file))
+
+        print("\n------------------------------------------")
+
+        print(f"Total File : {len(saved_files)}")
+
+        print("All generated files have been saved.")
+
+        print("------------------------------------------")
 
         return {
 

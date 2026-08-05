@@ -35,9 +35,27 @@ class EvaluatorAgent:
 
         self.code_smell = CodeSmellAnalyzer()
 
+        # =====================================================
+        # Progress
+        # =====================================================
+
+    def step(self, message):
+
+        print(f"\n{message}")
+
+        import time
+
+        time.sleep(0.4)
+
     # =====================================================
 
     def evaluate(self, refactoring_result):
+
+        print("\n==========================================")
+        print("EVALUATOR AGENT")
+        print("==========================================")
+
+        print(f"\nController : {refactoring_result['controller']}")
 
         original_code = refactoring_result["original_code"]
 
@@ -67,6 +85,8 @@ class EvaluatorAgent:
         # ORIGINAL
         # =====================================================
 
+        self.step("Calculating original software metrics...")
+
         original_mi = self.maintainability.analyze(
             original_code
         )
@@ -93,9 +113,13 @@ class EvaluatorAgent:
             original_code
         )
 
+        print("✓ Original metrics calculated.")
+
         # =====================================================
         # REFACTORED
         # =====================================================
+
+        self.step("Calculating refactored software metrics...")
 
         refactored_mi = self.maintainability.analyze(
             refactored_code
@@ -122,6 +146,8 @@ class EvaluatorAgent:
         refactored_smell = self.code_smell.analyze(
             refactored_code
         )
+
+        print("✓ Refactored metrics calculated.")
 
         # =====================================================
         # COMPARISON
@@ -171,6 +197,10 @@ class EvaluatorAgent:
         # BUILD PROMPT
         # =====================================================
 
+        self.step("Building evaluation prompt...")
+
+        print("✓ Prompt generated.")
+
         prompt = build_evaluator_prompt(
 
             {
@@ -209,6 +239,10 @@ class EvaluatorAgent:
         # LLM SUMMARY
         # =====================================================
 
+        self.step("Sending metrics to GPT Luna...")
+
+        print("✓ Evaluation received.")
+
         response = self.client.responses.create(
 
             model=EVALUATION_MODEL,
@@ -220,6 +254,10 @@ class EvaluatorAgent:
         # =====================================================
         # RETURN
         # =====================================================
+
+        print("\n==========================================")
+        print("EVALUATION COMPLETED")
+        print("==========================================")
 
         return {
 
