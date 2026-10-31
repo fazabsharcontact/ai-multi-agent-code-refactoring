@@ -1,0 +1,116 @@
+{
+    "controller": "GajiController",
+    "files_analyzed": [
+        "/Users/faza/Skripsi/GITHUB WORKFLOW- MULTI AGENT/AI-Refactoring-Agent- V2 GITHUB/results/GajiController_llm_judge_run1.json",
+        "/Users/faza/Skripsi/GITHUB WORKFLOW- MULTI AGENT/AI-Refactoring-Agent- V2 GITHUB/results/GajiController_llm_judge_run2.json",
+        "/Users/faza/Skripsi/GITHUB WORKFLOW- MULTI AGENT/AI-Refactoring-Agent- V2 GITHUB/results/GajiController_llm_judge_run3.json",
+        "/Users/faza/Skripsi/GITHUB WORKFLOW- MULTI AGENT/AI-Refactoring-Agent- V2 GITHUB/results/GajiController_llm_judge_run4.json",
+        "/Users/faza/Skripsi/GITHUB WORKFLOW- MULTI AGENT/AI-Refactoring-Agent- V2 GITHUB/results/GajiController_llm_judge_run5.json"
+    ],
+    "per_criterion": {
+        "prompting": {
+            "n_runs": 5,
+            "values": [
+                3,
+                3,
+                3,
+                3,
+                3
+            ],
+            "mean": 3.0,
+            "std": 0.0,
+            "min": 3,
+            "max": 3,
+            "range": 0
+        },
+        "responsibility_separation": {
+            "n_runs": 5,
+            "values": [
+                4,
+                4,
+                4,
+                4,
+                4
+            ],
+            "mean": 4.0,
+            "std": 0.0,
+            "min": 4,
+            "max": 4,
+            "range": 0
+        },
+        "modularity": {
+            "n_runs": 5,
+            "values": [
+                4,
+                4,
+                4,
+                4,
+                4
+            ],
+            "mean": 4.0,
+            "std": 0.0,
+            "min": 4,
+            "max": 4,
+            "range": 0
+        },
+        "readability": {
+            "n_runs": 5,
+            "values": [
+                4,
+                4,
+                4,
+                4,
+                4
+            ],
+            "mean": 4.0,
+            "std": 0.0,
+            "min": 4,
+            "max": 4,
+            "range": 0
+        },
+        "solid": {
+            "n_runs": 5,
+            "values": [
+                4,
+                4,
+                4,
+                3,
+                4
+            ],
+            "mean": 3.8,
+            "std": 0.447,
+            "min": 3,
+            "max": 4,
+            "range": 1
+        },
+        "architecture": {
+            "n_runs": 5,
+            "values": [
+                3,
+                3,
+                4,
+                3,
+                2
+            ],
+            "mean": 3.0,
+            "std": 0.707,
+            "min": 2,
+            "max": 4,
+            "range": 2
+        }
+    },
+    "overall": {
+        "n_runs": 5,
+        "values": [
+            3.667,
+            3.667,
+            3.833,
+            3.5,
+            3.5
+        ],
+        "mean": 3.633,
+        "std": 0.139,
+        "min": 3.5,
+        "max": 3.833
+    }
+}
